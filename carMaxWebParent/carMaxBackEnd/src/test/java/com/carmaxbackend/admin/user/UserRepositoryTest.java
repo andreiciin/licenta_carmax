@@ -29,4 +29,18 @@ public class UserRepositoryTest {
 		System.out.println(user.getFirstName());
 		assertThat(user).isNotNull();
 	}
+
+	@Test
+	public void testCountById() {
+		Integer id = 37;
+		Long countById = repo.countById(id);
+
+		assertThat(countById).isNotNull().isGreaterThan(0);
+	}
+
+	@Test
+	public void testDisableUser() {
+		Integer id = 37;
+		repo.updateEnabledStatus(id, false);
+	}
 }
