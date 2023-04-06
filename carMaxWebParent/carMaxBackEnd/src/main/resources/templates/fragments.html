@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
-<head>
-    <meta charset="UTF-8">
-</head>
 <body>
+
+    <div th:fragment="footer" class="text-center m-3">
+        <p>CarMax Control Panel - Copyright &copy; CarMax</p>
+    </div>
+
     <th th:fragment="column_link(fieldName, columnLabel, removeTag)" th:remove="${removeTag}">
         <a class="text-dark"
            th:href="@{'/users/page/' + ${currentPage} + '?sortField=' + ${fieldName} + '&sortDir=' + ${sortField != fieldName ? sortDir : reverseSortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">
