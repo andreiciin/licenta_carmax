@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en"
+    xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head>
     <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
@@ -22,7 +23,11 @@
     <div th:replace="navigation :: menu"></div>
 
     <div>
-        <h1>CarMax Control Panel</h1>
+        <h2>CarMax Control Panel</h2>
+        Welcome
+        <a th:href="@{/account}"
+           sec:authentication="principal.fullname"></a>
+        <span sec:authentication="principal.authorities"></span>
     </div>
 
     <div th:replace="fragments :: footer"></div>
