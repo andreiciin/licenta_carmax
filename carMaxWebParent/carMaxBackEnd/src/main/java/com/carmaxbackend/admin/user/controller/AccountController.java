@@ -1,7 +1,8 @@
-package com.carmaxbackend.admin.user;
+package com.carmaxbackend.admin.user.controller;
 
 import com.carmax.common.entity.User;
 import com.carmaxbackend.admin.security.CarMaxUserDetails;
+import com.carmaxbackend.admin.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -22,7 +23,7 @@ public class AccountController {
 		User user = service.getByEmail(email);
 		model.addAttribute("user", user);
 
-		return "account_form";
+		return "users/account_form";
 	}
 
 	@PostMapping("/account/update")
