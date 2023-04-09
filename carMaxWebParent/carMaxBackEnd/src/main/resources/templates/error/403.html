@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en"
-    xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head>
     <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
 
-    <title>Home - CarMax Admin</title>
+    <title>Error - CarMax Admin</title>
+
     <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/5.2.3/css/bootstrap.min.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/fontawesome/all.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/style.css}"/>
@@ -22,12 +23,8 @@
 <div class="container-fluid">
     <div th:replace="navigation :: menu"></div>
 
-    <div>
-        <h2>CarMax Control Panel</h2>
-        Welcome
-        <a th:href="@{/account}"
-           sec:authentication="principal.fullname"></a>
-        <span sec:authentication="principal.authorities"></span>
+    <div class="m-3">
+        <h2>Sorry, you don't have permission to access this page!</h2>
     </div>
 
     <div th:replace="fragments :: footer"></div>
