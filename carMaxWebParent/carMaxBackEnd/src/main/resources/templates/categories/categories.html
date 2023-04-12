@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+
+    <title>Categories - CarMax Admin</title>
+
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/5.2.3/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/fontawesome/all.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/style.css}"/>
+    <script type="text/javascript" th:src="@{/webjars/jquery/3.6.4/jquery.min.js}"></script>
+    <script
+            src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"
+            integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB"
+            crossorigin="anonymous"
+    ></script>
+    <script type="text/javascript" th:src="@{/webjars/bootstrap/5.2.3/js/bootstrap.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/common.js}"></script>
+</head>
+
+<body>
+<div class="container-fluid">
+    <div th:replace="navigation :: menu"></div>
+
+    <div>
+        <div class="text-center">
+            <h2>Manage Categories</h2>
+        </div>
+        <a th:href="@{/categories/new}" class="fa-solid fa-folder-plus fa-2x icon-green"
+           title="Add new category"></a>
+    </div>
+
+    <div>
+        <form th:action="@{/categories/page/1}" class="d-flex align-items-center m-3">
+
+            <div class="col-auto">
+                <label for="keyword" class="col-form-label">Filter:&nbsp;</label>
+            </div>
+            <div class="col-auto">
+                <input type="search" id="keyword" name="keyword" th:value="${keyword}" class="form-control" required/>
+            </div>
+            <div class="col-auto">
+                <input type="submit" value="Search" class="btn btn-primary ms-1"/>
+                <input type="button" value="Clear" class="btn btn-secondary" onclick="clearFilter()"/>
+            </div>
+        </form>
+    </div>
+
+    <div class="full-details">
+        <table class="table table-bordered table-striped table-hover table-responsive-xl">
+            <thead class="table-secondary">
+                <tr>
+                    <th>ID</th>
+                    <th>Category Image</th>
+                    <th>Category Name</th>
+                    <th>Alias</th>
+                    <th>Enabled</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            <tr th:each="cat : ${listCategories}">
+                <td>[[${cat.id}]]</td>
+                <td></td>
+                <td>[[${cat.name}]]</td>
+                <td>[[${cat.alias}]]</td>
+                <td>
+                    <a th:if="${cat.enabled == true}" class="fa-solid fa-check-circle fa-2x icon-green"
+                       th:href="@{'/categories/' + ${cat.id} + '/enabled/false'}"
+                       title="Disable this category"
+                    ></a>
+                    <a th:if="${cat.enabled == false}" class="fa-solid fa-circle fa-2x icon-dark"
+                       th:href="@{'/categories/' + ${cat.id} + '/enabled/true'}"
+                       title="Enable this category"
+                    ></a>
+                </td>
+                <td>
+                    <a class="fa-solid fa-edit fa-2x icon-green" th:href="@{'/categories/edit/' + ${cat.id}}"
+                       title="Edit this category"></a>
+                    &nbsp;
+                    <a class="fa-solid fa-trash fa-2x icon-dark link-delete"
+                       th:href="@{'/categories/delete/' + ${cat.id}}"
+                       th:catId="${cat.id}"
+                       title="Delete this category"
+                    ></a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div th:replace="fragments :: footer"></div>
+
+</div>
+</script>
+</body>
+</html>

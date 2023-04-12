@@ -4,6 +4,8 @@ import com.carmax.common.entity.Role;
 import com.carmax.common.entity.User;
 
 import jakarta.transaction.Transactional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -19,6 +21,7 @@ import java.util.Optional;
 @Service
 @Transactional
 public class UserService {
+	private static final Logger LOGGER = LoggerFactory.getLogger(UserService.class);
 	public static final int USERS_PER_PAGE = 4;
 	@Autowired
 	private UserRepository userRepo;
@@ -116,6 +119,7 @@ public class UserService {
 		try {
 			return userRepo.findById(id).get();
 		} catch (NoSuchElementException e) {
+//			LOGGER.error("Could not find any user with ID " + id); -- cand e cu sout eroarea
 			throw new UserNotFoundException("Could not find any user with ID " + id);
 		}
 	}
@@ -123,6 +127,7 @@ public class UserService {
 	public void delete(Integer id) throws UserNotFoundException {
 		Long countById = userRepo.countById(id);
 		if (countById == null || countById == 0) {
+//			LOGGER.error("Could not find any user with ID " + id); -- cand e cu sout eroarea
 			throw new UserNotFoundException("Could not find any user with ID " + id);
 		}
 
