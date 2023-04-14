@@ -14,7 +14,27 @@ public class CategoryService {
 	private CategoryRepository repo;
 
 	public List<Category> listAll() {
-		return (List<Category>) repo.findAll();
+		List<Category> rootCategories = repo.findRootCategories();
+		return listHierarchicalCategories(rootCategories);
+	}
+
+	private List<Category> listHierarchicalCategories(List<Category> rootCategories) {
+		List<Category> hierarchicalCategories = new ArrayList<>();
+
+		for (Category rootCategory : rootCategories) {
+			hierarchicalCategories.add(Category.copyFull(rootCategory));
+
+			Set<Category> children = rootCategory.getChildren();
+
+			for (Category subCategory : children) {
+				String name = "--" + subCategory.getName();
+				hierarchicalCategories.add(Category.copyFull(subCategory, name));
+
+				listSubHierarchicalCategories(hierarchicalCategories, subCategory, 1);
+			}
+		}
+
+		return hierarchicalCategories;
 	}
 
 	public Category save(Category category) {
@@ -36,7 +56,7 @@ public class CategoryService {
 					String name = "--" + subCategory.getName();
 					categoriesUsedInForm.add(Category.copyIdAndName(subCategory.getId(), name));
 
-					listChildren(categoriesUsedInForm, subCategory, 1);
+					listSubCategoriesUserInForm(categoriesUsedInForm, subCategory, 1);
 				}
 			}
 		}
@@ -44,7 +64,7 @@ public class CategoryService {
 		return categoriesUsedInForm;
 	}
 
-	private void listChildren(List<Category> categoriesUsedInForm, Category parent, int subLevel) {
+	private void listSubCategoriesUserInForm(List<Category> categoriesUsedInForm, Category parent, int subLevel) {
 		int newSubLevel = subLevel + 1;
 		Set<Category> children = parent.getChildren();
 
@@ -57,7 +77,25 @@ public class CategoryService {
 
 			categoriesUsedInForm.add(Category.copyIdAndName(subCategory.getId(), name));
 
-			listChildren(categoriesUsedInForm, subCategory, newSubLevel);
+			listSubCategoriesUserInForm(categoriesUsedInForm, subCategory, newSubLevel);
+		}
+	}
+
+	private void listSubHierarchicalCategories(List<Category> hierarchicalCategories,
+											   Category parent, int subLevel) {
+		Set<Category> children = parent.getChildren();
+		int newSubLevel = subLevel + 1;
+
+		for (Category subCategory : children) {
+			String name = "";
+			for (int i = 0; i < newSubLevel; i++) {
+				name += "--";
+			}
+			name += subCategory.getName();
+
+			hierarchicalCategories.add(Category.copyFull(subCategory, name));
+
+			listSubHierarchicalCategories(hierarchicalCategories, subCategory, newSubLevel);
 		}
 	}
 }
