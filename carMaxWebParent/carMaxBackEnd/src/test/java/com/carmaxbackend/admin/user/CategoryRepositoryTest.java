@@ -33,4 +33,10 @@ public class CategoryRepositoryTest {
 //
 //		assertThat(children.size()).isGreaterThan(0);
 	}
+
+	@Test
+	public void testListRootCategories() {
+		List<Category> rootCategories = repo.findRootCategories();
+		rootCategories.forEach(cat -> System.out.println(cat.getName()));
+	}
 }
