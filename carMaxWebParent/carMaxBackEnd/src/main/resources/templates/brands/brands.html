@@ -25,18 +25,18 @@
 
     <div>
         <div class="text-center">
-            <h2>Manage Categories</h2>
+            <h2>Manage Brands</h2>
         </div>
-        <a th:href="@{/categories/new}" class="fa-solid fa-folder-plus fa-2x icon-green"
+        <a th:href="@{/brands/new}" class="fa-solid fa-folder-plus fa-2x icon-green"
            title="Add new category"></a>
     </div>
 
-    <div th:if="${message != null}" class="alert alert-success text-center">
-        [[${message}]]
-    </div>
+<!--    <div th:if="${message != null}" class="alert alert-success text-center">-->
+<!--        [[${message}]]-->
+<!--    </div>-->
 
     <div>
-        <form th:action="@{/categories/page/1}" class="d-flex align-items-center m-3">
+        <form th:action="@{/brands/page/1}" class="d-flex align-items-center m-3">
 
             <div class="col-auto">
                 <label for="keyword" class="col-form-label">Filter:&nbsp;</label>
@@ -55,39 +55,32 @@
         <table class="table table-bordered table-striped table-hover table-responsive-xl">
             <thead class="table-secondary">
                 <tr>
-                    <th>ID</th>
-                    <th>Category Image</th>
-                    <th>Category Name</th>
-                    <th>Alias</th>
-                    <th>Enabled</th>
+                    <th>Brand ID</th>
+                    <th>Logo</th>
+                    <th>Brand Name</th>
+                    <th>Categories</th>
                     <th></th>
                 </tr>
             </thead>
             <tbody>
-            <tr th:each="cat : ${listCategories}">
-                <td>[[${cat.id}]]</td>
+            <tr th:each="brand : ${listBrands}">
+                <td>[[${brand.id}]]</td>
                 <td>
-                    <img th:src="@{${cat.imagePath}}" style="width: 100px" class="img-fluid"/>
+<!--                    <img th:src="@{${brand.imagePath}}" style="width: 100px" class="img-fluid"/>-->
                 </td>
-                <td>[[${cat.name}]]</td>
-                <td>[[${cat.alias}]]</td>
+                <td>[[${brand.name}]]</td>
                 <td>
-                    <a th:if="${cat.enabled == true}" class="fa-solid fa-check-circle fa-2x icon-green"
-                       th:href="@{'/categories/' + ${cat.id} + '/enabled/false'}"
-                       title="Disable this category"
-                    ></a>
-                    <a th:if="${cat.enabled == false}" class="fa-solid fa-circle fa-2x icon-dark"
-                       th:href="@{'/categories/' + ${cat.id} + '/enabled/true'}"
-                       title="Enable this category"
-                    ></a>
+                    <th:block th:each="cat : ${brand.categories}">
+                        <span class="badge bg-secondary" th:text="${cat.name}"></span>
+                    </th:block>
                 </td>
                 <td>
-                    <a class="fa-solid fa-edit fa-2x icon-green" th:href="@{'/categories/edit/' + ${cat.id}}"
+                    <a class="fa-solid fa-edit fa-2x icon-green" th:href="@{'/brands/edit/' + ${brand.id}}"
                        title="Edit this category"></a>
                     &nbsp;
                     <a class="fa-solid fa-trash fa-2x icon-dark link-delete"
-                       th:href="@{'/categories/delete/' + ${cat.id}}"
-                       th:catId="${cat.id}"
+                       th:href="@{'/brands/delete/' + ${brand.id}}"
+                       th:catId="${brand.id}"
                        title="Delete this category"
                     ></a>
                 </td>
@@ -96,17 +89,37 @@
         </table>
     </div>
 
+    <div class="modal fade text-center" id="confirmModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Delete Confirmation</h4>
+                    <button type="button" class="close" data-bs-dismiss="modal">&times;</button>
+                </div>
+
+                <div class="modal-body">
+                    <span id="confirmText"></span>
+                </div>
+
+                <div class="modal-footer">
+                    <a class="btn btn-success" href="" id="yesButton">Yes</a>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div th:replace="fragments :: footer"></div>
 
 </div>
 <script th:src="@{/js/common_list.js}"></script>
 <script type="text/javascript">
-    moduleURL = "[[@{/categories}]]";
+    moduleURL = "[[@{/brands}]]";
 
     $(document).ready(function() {
         $(".link-delete").on("click", function(e) {
             e.preventDefault();
-            showDeleteConfirmModal($(this), 'category');
+            showDeleteConfirmModal($(this), 'brand');
         });
     });
 </script>
