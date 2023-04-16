@@ -75,7 +75,8 @@
                 <div class="d-flex align-items-center">
                     <label class="col-sm-4 col-form-label">Chosen categories:</label>
                     <div class="col-sm-8">
-
+                        <div id="chosenCategories">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -110,6 +111,27 @@
 </div>
 <script type="text/javascript">
     moduleURL = "[[@{/brands}]]";
+
+    $(document).ready(function() {
+        dropdownCategories = $("#categories");
+        divChosenCategories = $("#chosenCategories");
+
+        dropdownCategories.change(function() {
+            divChosenCategories.empty();
+            showChosenCategories();
+        });
+    });
+
+    function showChosenCategories() {
+        dropdownCategories.children("option:selected").each(function() {
+            selectedCategory = $(this);
+            catId = selectedCategory.val();
+            catName = selectedCategory.text().replace(/-/g, "");
+
+            divChosenCategories.append("<span class='badge bg-secondary m-1'>" + catName + "</span>");
+        });
+
+    }
 </script>
 <script th:src="@{/js/common_form.js}"></script>
 </body>
