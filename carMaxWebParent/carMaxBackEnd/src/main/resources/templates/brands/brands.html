@@ -4,7 +4,7 @@
     <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
 
-    <title>Categories - CarMax Admin</title>
+    <title>Brands - CarMax Admin</title>
 
     <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/5.2.3/css/bootstrap.min.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/fontawesome/all.css}"/>
@@ -28,12 +28,12 @@
             <h2>Manage Brands</h2>
         </div>
         <a th:href="@{/brands/new}" class="fa-solid fa-folder-plus fa-2x icon-green"
-           title="Add new category"></a>
+           title="Add new brand"></a>
     </div>
 
-<!--    <div th:if="${message != null}" class="alert alert-success text-center">-->
-<!--        [[${message}]]-->
-<!--    </div>-->
+    <div th:if="${message != null}" class="alert alert-success text-center">
+        [[${message}]]
+    </div>
 
     <div>
         <form th:action="@{/brands/page/1}" class="d-flex align-items-center m-3">
@@ -66,7 +66,7 @@
             <tr th:each="brand : ${listBrands}">
                 <td>[[${brand.id}]]</td>
                 <td>
-<!--                    <img th:src="@{${brand.imagePath}}" style="width: 100px" class="img-fluid"/>-->
+                    <img th:src="@{${brand.logoPath}}" style="width: 100px" class="img-fluid"/>
                 </td>
                 <td>[[${brand.name}]]</td>
                 <td>
