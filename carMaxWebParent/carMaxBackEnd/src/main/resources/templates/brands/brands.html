@@ -80,7 +80,7 @@
                     &nbsp;
                     <a class="fa-solid fa-trash fa-2x icon-dark link-delete"
                        th:href="@{'/brands/delete/' + ${brand.id}}"
-                       th:catId="${brand.id}"
+                       th:brandId="${brand.id}"
                        title="Delete this category"
                     ></a>
                 </td>
@@ -119,9 +119,18 @@
     $(document).ready(function() {
         $(".link-delete").on("click", function(e) {
             e.preventDefault();
-            showDeleteConfirmModal($(this), 'brand');
+            link = $(this);
+            //alert($(this).attr("href"));
+            brandId = link.attr("brandId");
+            $("#yesButton").attr("href", link.attr("href"));
+            $("#confirmText").text("Are you sure you want to delete brand with ID " + brandId + "?");
+            $("#confirmModal").modal("show");
         });
     });
+
+    function clearFilter() {
+        window.location = "[[@{/brands}]]"
+    }
 </script>
 </body>
 </html>

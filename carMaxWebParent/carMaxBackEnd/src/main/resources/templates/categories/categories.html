@@ -85,15 +85,37 @@
                     <a class="fa-solid fa-edit fa-2x icon-green" th:href="@{'/categories/edit/' + ${cat.id}}"
                        title="Edit this category"></a>
                     &nbsp;
+                    <th:block th:if="${cat.hasChildren == false}">
                     <a class="fa-solid fa-trash fa-2x icon-dark link-delete"
                        th:href="@{'/categories/delete/' + ${cat.id}}"
                        th:catId="${cat.id}"
                        title="Delete this category"
                     ></a>
+                    </th:block>
                 </td>
             </tr>
             </tbody>
         </table>
+    </div>
+
+    <div class="modal fade text-center" id="confirmModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Delete Confirmation</h4>
+                    <button type="button" class="close" data-bs-dismiss="modal">&times;</button>
+                </div>
+
+                <div class="modal-body">
+                    <span id="confirmText"></span>
+                </div>
+
+                <div class="modal-footer">
+                    <a class="btn btn-success" href="" id="yesButton">Yes</a>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">No</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div th:replace="fragments :: footer"></div>
@@ -106,9 +128,18 @@
     $(document).ready(function() {
         $(".link-delete").on("click", function(e) {
             e.preventDefault();
-            showDeleteConfirmModal($(this), 'category');
+            link = $(this);
+            //alert($(this).attr("href"));
+            catId = link.attr("catId");
+            $("#yesButton").attr("href", link.attr("href"));
+            $("#confirmText").text("Are you sure you want to delete category with ID " + catId + "?");
+            $("#confirmModal").modal("show");
         });
     });
+
+    function clearFilter() {
+        window.location = "[[@{/categories}]]"
+    }
 </script>
 </body>
 </html>
