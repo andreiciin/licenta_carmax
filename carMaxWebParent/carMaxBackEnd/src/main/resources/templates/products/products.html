@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+
+    <title>Products - CarMax Admin</title>
+
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/5.2.3/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/fontawesome/all.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/style.css}"/>
+    <script type="text/javascript" th:src="@{/webjars/jquery/3.6.4/jquery.min.js}"></script>
+    <script
+            src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"
+            integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB"
+            crossorigin="anonymous"
+    ></script>
+    <script type="text/javascript" th:src="@{/webjars/bootstrap/5.2.3/js/bootstrap.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/common.js}"></script>
+</head>
+
+<body>
+<div class="container-fluid">
+    <div th:replace="navigation :: menu"></div>
+
+    <div>
+        <div class="text-center">
+            <h2>Manage Products</h2>
+        </div>
+        <a th:href="@{/products/new}" class="fa-solid fa-folder-plus fa-2x icon-green"
+           title="Add new product"></a>
+    </div>
+
+    <div th:if="${message != null}" class="alert alert-success text-center">
+        [[${message}]]
+    </div>
+
+    <div>
+        <form th:action="@{/products/page/1}" class="d-flex align-items-center m-3">
+
+            <div class="col-auto">
+                <label for="keyword" class="col-form-label">Filter:&nbsp;</label>
+            </div>
+            <div class="col-auto">
+                <input type="search" id="keyword" name="keyword" th:value="${keyword}" class="form-control" required/>
+            </div>
+            <div class="col-auto">
+                <input type="submit" value="Search" class="btn btn-primary ms-1"/>
+                <input type="button" value="Clear" class="btn btn-secondary" onclick="clearFilter()"/>
+            </div>
+        </form>
+    </div>
+
+    <div class="full-details">
+        <table class="table table-bordered table-striped table-hover table-responsive-xl">
+            <thead class="table-secondary">
+                <tr>
+                    <th>ID</th>
+                    <th>Main Image</th>
+                    <th>Product Name</th>
+                    <th>Brand</th>
+                    <th>Category</th>
+                    <th>Enabled</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            <tr th:each="product : ${listProducts}">
+                <td>[[${product.id}]]</td>
+                <td>
+                </td>
+                <td>[[${product.name}]]</td>
+                <td>[[${product.brand.name}]]</td>
+                <td>[[${product.category.name}]]</td>
+                <td>
+                    <a th:if="${product.enabled == true}" class="fa-solid fa-check-circle fa-2x icon-green"
+                       th:href="@{'/products/' + ${product.id} + '/enabled/false'}"
+                       title="Disable this product"
+                    ></a>
+                    <a th:if="${product.enabled == false}" class="fa-solid fa-circle fa-2x icon-dark"
+                       th:href="@{'/products/' + ${product.id} + '/enabled/true'}"
+                       title="Enable this product"
+                    ></a>
+                </td>
+                <td>
+                    <a class="fa-solid fa-file-alt fa-2x icon-green" th:href="@{'/products/detail/' + ${product.id}}"
+                       title="View details of this product"></a>
+                    &nbsp;
+                    <a class="fa-solid fa-edit fa-2x icon-green" th:href="@{'/products/edit/' + ${product.id}}"
+                       title="Edit this product"></a>
+                    &nbsp;
+                    <a class="fa-solid fa-trash fa-2x icon-dark link-delete"
+                       th:href="@{'/products/delete/' + ${product.id}}"
+                       th:brandId="${product.id}"
+                       title="Delete this product"
+                    ></a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="modal fade text-center" id="confirmModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Delete Confirmation</h4>
+                    <button type="button" class="close" data-bs-dismiss="modal">&times;</button>
+                </div>
+
+                <div class="modal-body">
+                    <span id="confirmText"></span>
+                </div>
+
+                <div class="modal-footer">
+                    <a class="btn btn-success" href="" id="yesButton">Yes</a>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div th:replace="fragments :: footer"></div>
+
+</div>
+<script th:src="@{/js/common_list.js}"></script>
+<script type="text/javascript">
+    moduleURL = "[[@{/products}]]";
+
+    // $(document).ready(function() {
+    //     $(".link-delete").on("click", function(e) {
+    //         e.preventDefault();
+    //         link = $(this);
+    //         //alert($(this).attr("href"));
+    //         productId = link.attr("productId");
+    //         $("#yesButton").attr("href", link.attr("href"));
+    //         $("#confirmText").text("Are you sure you want to delete product with ID " + productId + "?");
+    //         $("#confirmModal").modal("show");
+    //     });
+    // });
+    //
+    // function clearFilter() {
+    //     window.location = "[[@{/products}]]"
+    // }
+</script>
+</body>
+</html>
