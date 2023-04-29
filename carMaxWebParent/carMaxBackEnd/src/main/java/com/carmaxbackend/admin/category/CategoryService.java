@@ -1,12 +1,14 @@
 package com.carmaxbackend.admin.category;
 
 import com.carmax.common.entity.Category;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 
 @Service
+@Transactional
 public class CategoryService {
 	@Autowired
 	private CategoryRepository repo;

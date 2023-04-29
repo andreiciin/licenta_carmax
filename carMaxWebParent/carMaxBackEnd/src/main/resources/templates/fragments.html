@@ -32,15 +32,15 @@
     </div>
 
     <div th:fragment="category_actions" th:remove="tag">
-
         <a class="fa-solid fa-edit fa-2x icon-green" th:href="@{'/categories/edit/' + ${cat.id}}"
            title="Edit this category"></a>
-        <th:block th:if="${cat.hasChildren == false}">&nbsp;
-        <a class="fa-solid fa-trash fa-2x icon-dark link-delete"
-           th:href="@{'/categories/delete/' + ${cat.id}}"
-           th:entityId="${cat.id}"
-           title="Delete this category"
-        ></a>
+        &nbsp;
+        <th:block th:if="${cat.hasChildren == false}">
+            <a class="fa-solid fa-trash fa-2x icon-dark link-delete"
+               th:href="@{'/categories/delete/' + ${cat.id}}"
+               th:catId="${cat.id}"
+               title="Delete this category"
+            ></a>
         </th:block>
     </div>
 </body>
