@@ -3,6 +3,7 @@ package com.carmaxbackend.admin.category;
 import com.carmax.common.entity.Category;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -13,77 +14,39 @@ public class CategoryService {
 	@Autowired
 	private CategoryRepository repo;
 
-	public List<Category> listAll() {
-		List<Category> rootCategories = repo.findRootCategories();
-		return listHierarchicalCategories(rootCategories);
+	public List<Category> listAll(String sortDir) {
+		Sort sort = Sort.by("name");
+		if (sortDir.equals("asc")) {
+			sort = sort.ascending();
+		} else if (sortDir.equals("desc")) {
+			sort = sort.descending();
+		}
+		List<Category> rootCategories = repo.findRootCategories(sort);
+		return listHierarchicalCategories(rootCategories, sortDir);
 	}
 
-	private List<Category> listHierarchicalCategories(List<Category> rootCategories) {
+	private List<Category> listHierarchicalCategories(List<Category> rootCategories, String sortDir) {
 		List<Category> hierarchicalCategories = new ArrayList<>();
 
 		for (Category rootCategory : rootCategories) {
 			hierarchicalCategories.add(Category.copyFull(rootCategory));
 
-			Set<Category> children = rootCategory.getChildren();
+			Set<Category> children = sortSubCategories(rootCategory.getChildren(), sortDir);
 
 			for (Category subCategory : children) {
 				String name = "--" + subCategory.getName();
 				hierarchicalCategories.add(Category.copyFull(subCategory, name));
 
-				listSubHierarchicalCategories(hierarchicalCategories, subCategory, 1);
+				listSubHierarchicalCategories(hierarchicalCategories, subCategory, 1, sortDir);
 			}
 		}
 
 		return hierarchicalCategories;
 	}
 
-	public Category save(Category category) {
-		return repo.save(category);
-	}
-
-	public List<Category> listCategoriesUsedInForm() {
-		List<Category> categoriesUsedInForm = new ArrayList<>();
-
-		Iterable<Category> categoriesInDB = repo.findAll();
-
-		for (Category category : categoriesInDB) {
-			if (category.getParent() == null) {
-				categoriesUsedInForm.add(Category.copyIdAndName(category));
-
-				Set<Category> children = category.getChildren();
-
-				for (Category subCategory : children) {
-					String name = "--" + subCategory.getName();
-					categoriesUsedInForm.add(Category.copyIdAndName(subCategory.getId(), name));
-
-					listSubCategoriesUserInForm(categoriesUsedInForm, subCategory, 1);
-				}
-			}
-		}
-
-		return categoriesUsedInForm;
-	}
-
-	private void listSubCategoriesUserInForm(List<Category> categoriesUsedInForm, Category parent, int subLevel) {
-		int newSubLevel = subLevel + 1;
-		Set<Category> children = parent.getChildren();
-
-		for (Category subCategory : children) {
-			String name = "";
-			for (int i = 0; i < newSubLevel; i++) {
-				name += "--";
-			}
-			name += subCategory.getName();
-
-			categoriesUsedInForm.add(Category.copyIdAndName(subCategory.getId(), name));
-
-			listSubCategoriesUserInForm(categoriesUsedInForm, subCategory, newSubLevel);
-		}
-	}
-
 	private void listSubHierarchicalCategories(List<Category> hierarchicalCategories,
-											   Category parent, int subLevel) {
-		Set<Category> children = parent.getChildren();
+											   Category parent, int subLevel, String sortDir) {
+		Set<Category> children = sortSubCategories(parent.getChildren(), sortDir);
 		int newSubLevel = subLevel + 1;
 
 		for (Category subCategory : children) {
@@ -95,7 +58,51 @@ public class CategoryService {
 
 			hierarchicalCategories.add(Category.copyFull(subCategory, name));
 
-			listSubHierarchicalCategories(hierarchicalCategories, subCategory, newSubLevel);
+			listSubHierarchicalCategories(hierarchicalCategories, subCategory, newSubLevel, sortDir);
+		}
+
+	}
+
+	public Category save(Category category) {
+		return repo.save(category);
+	}
+
+	public List<Category> listCategoriesUsedInForm() {
+		List<Category> categoriesUsedInForm = new ArrayList<>();
+
+		Iterable<Category> categoriesInDB = repo.findRootCategories(Sort.by("name").ascending());
+
+		for (Category category : categoriesInDB) {
+			categoriesUsedInForm.add(Category.copyIdAndName(category));
+
+			Set<Category> children = sortSubCategories(category.getChildren());
+
+			for (Category subCategory : children) {
+				String name = "--" + subCategory.getName();
+				categoriesUsedInForm.add(Category.copyIdAndName(subCategory.getId(), name));
+
+				listSubCategoriesUsedInForm(categoriesUsedInForm, subCategory, 1);
+			}
+		}
+
+		return categoriesUsedInForm;
+	}
+
+	private void listSubCategoriesUsedInForm(List<Category> categoriesUsedInForm,
+											 Category parent, int subLevel) {
+		int newSubLevel = subLevel + 1;
+		Set<Category> children = sortSubCategories(parent.getChildren());
+
+		for (Category subCategory : children) {
+			String name = "";
+			for (int i = 0; i < newSubLevel; i++) {
+				name += "--";
+			}
+			name += subCategory.getName();
+
+			categoriesUsedInForm.add(Category.copyIdAndName(subCategory.getId(), name));
+
+			listSubCategoriesUsedInForm(categoriesUsedInForm, subCategory, newSubLevel);
 		}
 	}
 
