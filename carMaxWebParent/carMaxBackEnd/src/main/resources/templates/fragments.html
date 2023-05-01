@@ -6,9 +6,9 @@
         <p>CarMax Control Panel - Copyright &copy; CarMax</p>
     </div>
 
-    <th th:fragment="column_link(fieldName, columnLabel, removeTag)" th:remove="${removeTag}">
+    <th th:fragment="column_link(moduleUrl, fieldName, columnLabel, removeTag)" th:remove="${removeTag}">
         <a class="text-dark"
-           th:href="@{'/users/page/' + ${currentPage} + '?sortField=' + ${fieldName} + '&sortDir=' + ${sortField != fieldName ? sortDir : reverseSortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">
+           th:href="@{${moduleUrl} +'/page/' + ${currentPage} + '?sortField=' + ${fieldName} + '&sortDir=' + ${sortField != fieldName ? sortDir : reverseSortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">
             [[${columnLabel}]]
         </a>
         <span th:if="${sortField == fieldName}"
@@ -20,15 +20,30 @@
        th:href="@{${moduleUrl} +'/page/' + ${pageNum} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">[[${label}]]
     </a>
 
-    <div th:fragment="category_status" th:remove="tag">
-        <a th:if="${cat.enabled == true}" class="fa-solid fa-check-circle fa-2x icon-green"
-           th:href="@{'/categories/' + ${cat.id} + '/enabled/false'}"
-           title="Disable this category"
+    <div th:fragment="status(enabled, entityName, entityUrl)" th:remove="tag">
+        <a th:if="${enabled == true}" class="fa-solid fa-check-circle fa-2x icon-green"
+           th:href="@{${entityUrl} + '/enabled/false'}"
+           th:title="'Disable this ' + ${entityName}"
         ></a>
-        <a th:if="${cat.enabled == false}" class="fa-solid fa-circle fa-2x icon-dark"
-           th:href="@{'/categories/' + ${cat.id} + '/enabled/true'}"
-           title="Enable this category"
+        <a th:if="${enabled == false}" class="fa-solid fa-circle fa-2x icon-dark"
+           th:href="@{${entityUrl} + '/enabled/true'}"
+           th:title="'Enable this ' + ${entityName}"
         ></a>
+    </div>
+
+    <div th:fragment="edit(entityName, entityUrl)" th:remove="tag">
+        <a class="fa-solid fa-edit fa-2x icon-green" th:href="@{${entityUrl}}"
+           th:title="'Edit this ' + ${entityName}"></a>
+    </div>
+
+    <div th:fragment="delete(entityName, entityId, deleteUrl, visible)" th:remove="tag">
+        <th:block th:if="${visible}">
+            <a class="fa-solid fa-trash fa-2x icon-dark link-delete"
+               th:href="@{${deleteUrl}}"
+               th:entityId="${entityId}"
+               title="'Delete this ' + ${entityName}"
+            ></a>
+        </th:block>
     </div>
 
     <div th:fragment="category_actions" th:remove="tag">
@@ -44,7 +59,7 @@
         </th:block>
     </div>
 
-    <div th:fragment="search_form(moduleUrl)">
+    <div th:fragment="search_form_and_message(moduleUrl)">
         <form th:action="@{${moduleUrl}}" class="d-flex align-items-center m-3">
                 <input type="hidden" name="sortField" th:value="${sortField}"/>
                 <input type="hidden" name="sortDir" th:value="${sortDir}"/>
@@ -60,6 +75,10 @@
                     <input type="button" value="Clear" class="btn btn-secondary" onclick="clearFilter()"/>
                 </div>
         </form>
+
+        <div th:if="${message != null}" class="alert alert-success text-center">
+            [[${message}]]
+        </div>
     </div>
 
     <div th:fragment="pagination(moduleUrl, entityName)" th:remove="tag">
