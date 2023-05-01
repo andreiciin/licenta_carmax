@@ -35,23 +35,7 @@
         [[${message}]]
     </div>
 
-    <div>
-        <form th:action="@{/users/page/1}" class="d-flex align-items-center m-3">
-            <input type="hidden" name="sortField" th:value="${sortField}"/>
-            <input type="hidden" name="sortDir" th:value="${sortDir}"/>
-
-            <div class="col-auto">
-                <label for="keyword" class="col-form-label">Filter:&nbsp;</label>
-            </div>
-            <div class="col-auto">
-                <input type="search" id="keyword" name="keyword" th:value="${keyword}" class="form-control" required/>
-            </div>
-            <div class="col-auto">
-                <input type="submit" value="Search" class="btn btn-primary ms-1"/>
-                <input type="button" value="Clear" class="btn btn-secondary" onclick="clearFilter()"/>
-            </div>
-        </form>
-    </div>
+    <div th:replace="fragments :: search_form('/users/page/1')"></div>
 
     <div class="full-details">
         <table class="table table-bordered table-striped table-hover table-responsive-xl">

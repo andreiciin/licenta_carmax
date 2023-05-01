@@ -35,21 +35,7 @@
         [[${message}]]
     </div>
 
-    <div>
-        <form th:action="@{/categories/page/1}" class="d-flex align-items-center m-3">
-
-            <div class="col-auto">
-                <label for="keyword" class="col-form-label">Filter:&nbsp;</label>
-            </div>
-            <div class="col-auto">
-                <input type="search" id="keyword" name="keyword" th:value="${keyword}" class="form-control" required/>
-            </div>
-            <div class="col-auto">
-                <input type="submit" value="Search" class="btn btn-primary ms-1"/>
-                <input type="button" value="Clear" class="btn btn-secondary" onclick="clearFilter()"/>
-            </div>
-        </form>
-    </div>
+    <div th:replace="fragments :: search_form('/categories/page/1')"></div>
 
     <div class="full-details">
         <table class="table table-bordered table-striped table-hover table-responsive-xl">
@@ -58,7 +44,7 @@
                     <th>ID</th>
                     <th>Category Image</th>
                     <th>
-                        <a class="text-dark" th:href="@{'/categories/page/' + ${pageNum} + '?sortDir=' + ${reverseSortDir} }">Category Name</a>
+                        <a class="text-dark" th:href="@{'/categories/page/' + ${pageNum} + '?sortDir=' + ${reverseSortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">Category Name</a>
                         <span th:class="${reverseSortDir == 'desc' ? 'fa-solid fa-sort-up' : 'fa-solid fa-sort-down'}"></span>
                     </th>
                     <th>Alias</th>
@@ -85,7 +71,13 @@
         </table>
     </div>
 
+    <div th:if="${keyword != null}" class="text-center">
+        <span>Search result does not show categories in hierarchical form</span>
+        <div th:replace="fragments :: pagination('/categories', 'categories')"></div>
+    </div>
+    <th:block th:unless="${keyword != null}">
     <div th:replace="fragments :: pagination('/categories', 'top-level categories')"></div>
+    </th:block>
 
     <div class="modal fade text-center" id="confirmModal">
         <div class="modal-dialog">
