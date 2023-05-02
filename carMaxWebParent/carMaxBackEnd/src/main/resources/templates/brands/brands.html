@@ -31,25 +31,7 @@
            title="Add new brand"></a>
     </div>
 
-    <div th:if="${message != null}" class="alert alert-success text-center">
-        [[${message}]]
-    </div>
-
-    <div>
-        <form th:action="@{/brands/page/1}" class="d-flex align-items-center m-3">
-
-            <div class="col-auto">
-                <label for="keyword" class="col-form-label">Filter:&nbsp;</label>
-            </div>
-            <div class="col-auto">
-                <input type="search" id="keyword" name="keyword" th:value="${keyword}" class="form-control" required/>
-            </div>
-            <div class="col-auto">
-                <input type="submit" value="Search" class="btn btn-primary ms-1"/>
-                <input type="button" value="Clear" class="btn btn-secondary" onclick="clearFilter()"/>
-            </div>
-        </form>
-    </div>
+    <div th:replace="fragments :: search_form_and_message('/brands/page/1')"></div>
 
     <div class="full-details">
         <table class="table table-bordered table-striped table-hover table-responsive-xl">
@@ -57,7 +39,7 @@
                 <tr>
                     <th>Brand ID</th>
                     <th>Logo</th>
-                    <th>Brand Name</th>
+                    <th th:replace="fragments :: column_link('/brands', 'name', 'Brand Name', 'none')" />
                     <th>Categories</th>
                     <th></th>
                 </tr>
@@ -88,6 +70,8 @@
             </tbody>
         </table>
     </div>
+
+    <div th:replace="fragments :: pagination('/brands', 'brands')"></div>
 
     <div class="modal fade text-center" id="confirmModal">
         <div class="modal-dialog">
