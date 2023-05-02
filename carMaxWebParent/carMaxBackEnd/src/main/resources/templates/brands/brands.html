@@ -37,7 +37,7 @@
         <table class="table table-bordered table-striped table-hover table-responsive-xl">
             <thead class="table-secondary">
                 <tr>
-                    <th>Brand ID</th>
+                    <th class="hideable-column">Brand ID</th>
                     <th>Logo</th>
                     <th th:replace="fragments :: column_link('/brands', 'name', 'Brand Name', 'none')" />
                     <th>Categories</th>
@@ -46,7 +46,7 @@
             </thead>
             <tbody>
             <tr th:each="brand : ${listBrands}">
-                <td>[[${brand.id}]]</td>
+                <td class="hideable-column">[[${brand.id}]]</td>
                 <td>
                     <img th:src="@{${brand.logoPath}}" style="width: 100px" class="img-fluid"/>
                 </td>
@@ -69,6 +69,28 @@
             </tr>
             </tbody>
         </table>
+    </div>
+
+    <div class="less-details">
+            <div th:each="brand : ${listBrands}" class="row m-1">
+                <div class="col-6">
+                    <img th:src="@{${brand.logoPath}}" style="width: 100px" class="img-fluid"/>
+                </div>
+                <div class="col-6">
+                    <div><b>[[${brand.name}]]</b></div>
+                    <div class="mt-2">
+                        <a class="fa-solid fa-edit fa-2x icon-green" th:href="@{'/brands/edit/' + ${brand.id}}"
+                            title="Edit this category"></a>
+                        &nbsp;&nbsp;
+                        <a class="fa-solid fa-trash fa-2x icon-dark link-delete"
+                            th:href="@{'/brands/delete/' + ${brand.id}}"
+                            th:brandId="${brand.id}"
+                            title="Delete this category"
+                        ></a>
+                    </div>
+                </div>
+                <div>&nbsp;</div>
+            </div>
     </div>
 
     <div th:replace="fragments :: pagination('/brands', 'brands')"></div>
