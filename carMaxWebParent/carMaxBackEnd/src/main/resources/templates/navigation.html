@@ -50,9 +50,9 @@
                     </li>
                 </th:block>
 
-                <th:block sec:authorize="hasAnyAuthority('Admin', 'Salesperson')">
+                <th:block sec:authorize="hasAnyAuthority('Admin', 'Salesperson', 'Editor')">
                     <li class="nav-item">
-                        <a class="nav-link" th:href="@{/report}">Sales Report</a>
+                        <a class="nav-link" th:href="@{/history}">History</a>
                     </li>
                 </th:block>
 
