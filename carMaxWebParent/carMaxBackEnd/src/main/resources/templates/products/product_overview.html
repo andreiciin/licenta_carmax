@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org" lang="en">
+<body>
+<div th:fragment="content" th:remove="tag">
+
+    <div class="form-floating row mb-2">
+        <div class="d-flex align-items-center">
+            <label class="col-sm-2 col-form-label">Product name:</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control ms-1" th:field="*{name}" required minlength="3" maxlength="256"/>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-floating row mb-2">
+        <div class="d-flex align-items-center">
+            <label class="col-sm-2 col-form-label">Alias:</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control ms-1" th:field="*{alias}"
+                       placeholder="Default is product_name" minlength="3" maxlength="256"/>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-floating row mb-2">
+        <div class="d-flex align-items-center">
+            <label class="col-sm-2 col-form-label">Brand:</label>
+            <div class="col-sm-10">
+                <select class="form-control ms-1" th:field="*{brand}" required>
+                    <th:block th:each="brand : ${listBrands}">
+                        <option th:value="${brand.id}">[[${brand.name}]]</option>
+                    </th:block>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-floating row mb-2">
+        <div class="d-flex align-items-center">
+            <label class="col-sm-2 col-form-label">Category:</label>
+            <div class="col-sm-10">
+                <select class="form-control ms-1" th:field="*{category}" required>
+
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-floating row mb-2">
+        <div class="d-flex align-items-start">
+            <label class="col-sm-2 col-form-label">Enabled</label>
+            <div class="col-sm-10">
+                <input type="checkbox" th:field="*{enabled}"/>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-floating row mb-2">
+        <div class="d-flex align-items-start">
+            <label class="col-sm-2 col-form-label">In stock:</label>
+            <div class="col-sm-10">
+                <input type="checkbox" th:field="*{inStock}"/>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-floating row mb-2">
+        <div class="d-flex align-items-center">
+            <label class="col-sm-2 col-form-label">Cost:</label>
+            <div class="col-sm-10">
+                <input type="number" class="form-control ms-1" th:field="*{cost}"/>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-floating row mb-2">
+        <div class="d-flex align-items-center">
+            <label class="col-sm-2 col-form-label">Price:</label>
+            <div class="col-sm-10">
+                <input type="number" class="form-control ms-1" th:field="*{price}"/>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-floating row mb-2">
+        <div class="d-flex align-items-center">
+            <label class="col-sm-2 col-form-label">Discount:</label>
+            <div class="col-sm-10">
+                <input type="number" class="form-control ms-1" th:field="*{discountPercent}"/>
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>
