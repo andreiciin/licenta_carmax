@@ -17,6 +17,9 @@
     ></script>
     <script type="text/javascript" th:src="@{/webjars/bootstrap/5.2.3/js/bootstrap.min.js}"></script>
     <script type="text/javascript" th:src="@{/js/common.js}"></script>
+
+    <link rel="stylesheet" th:href="@{/richtext/richtext.min.css}" />
+    <script th:src="@{/richtext/jquery.richtext.min.js}"></script>
 </head>
 <body>
 <div class="container-fluid">
@@ -33,16 +36,19 @@
             <!-- Nav tabs -->
             <ul class="nav nav-tabs" id="myTab" role="tablist">
                 <li class="nav-item">
-                    <a class="nav-link active" data-toggle="tab" href="#overview" role="tab">Overview</a>
+                    <a class="nav-link active" data-bs-toggle="tab" href="#overview" role="tab">Overview</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" href="#description" role="tab">Description</a>
+                    <a class="nav-link" data-bs-toggle="tab" href="#description" role="tab">Description</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" href="#images" role="tab">Images</a>
+                    <a class="nav-link" data-bs-toggle="tab" href="#images" role="tab">Images</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" href="#details" role="tab">Details</a>
+                    <a class="nav-link" data-bs-toggle="tab" href="#details" role="tab">Details</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="tab" href="#shipping" role="tab">Shipping</a>
                 </li>
             </ul>
 
@@ -51,9 +57,14 @@
                 <div class="tab-pane active p-3" id="overview" role="tabpanel">
                     <div th:replace="products/product_overview :: content"></div>
                 </div>
-                <div class="tab-pane" id="description" role="tabpanel">Description</div>
+                <div class="tab-pane" id="description" role="tabpanel">
+                    <div th:replace="products/product_description :: content"></div>
+                </div>
                 <div class="tab-pane" id="images" role="tabpanel">Images</div>
                 <div class="tab-pane" id="details" role="tabpanel">Details</div>
+                <div class="tab-pane p-3" id="shipping" role="tabpanel">
+                    <div th:replace="products/product_shipping :: content"></div>
+                </div>
             </div>
         </div>
         <div class="text-center">
@@ -91,6 +102,10 @@
     dropdownCategories = $("#category");
 
     $(document).ready(function() {
+
+        $("#shortDescription").richText();
+        $("#fullDescription").richText();
+
         dropdownBrands.change(function() {
             dropdownCategories.empty();
             getCategories();
