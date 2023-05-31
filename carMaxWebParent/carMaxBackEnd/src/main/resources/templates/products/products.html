@@ -73,14 +73,7 @@
                 <td>[[${product.brand.name}]]</td>
                 <td>[[${product.category.name}]]</td>
                 <td>
-                    <a th:if="${product.enabled == true}" class="fa-solid fa-check-circle fa-2x icon-green"
-                       th:href="@{'/products/' + ${product.id} + '/enabled/false'}"
-                       title="Disable this product"
-                    ></a>
-                    <a th:if="${product.enabled == false}" class="fa-solid fa-circle fa-2x icon-dark"
-                       th:href="@{'/products/' + ${product.id} + '/enabled/true'}"
-                       title="Enable this product"
-                    ></a>
+                    <div th:replace="fragments :: status(${product.enabled}, 'product', '/products/' + ${product.id})" />
                 </td>
                 <td>
                     <a class="fa-solid fa-file-alt fa-2x icon-green" th:href="@{'/products/detail/' + ${product.id}}"
