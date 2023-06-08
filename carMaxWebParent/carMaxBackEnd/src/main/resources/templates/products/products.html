@@ -120,21 +120,21 @@
 <script type="text/javascript">
     moduleURL = "[[@{/products}]]";
 
-    // $(document).ready(function() {
-    //     $(".link-delete").on("click", function(e) {
-    //         e.preventDefault();
-    //         link = $(this);
-    //         //alert($(this).attr("href"));
-    //         productId = link.attr("productId");
-    //         $("#yesButton").attr("href", link.attr("href"));
-    //         $("#confirmText").text("Are you sure you want to delete product with ID " + productId + "?");
-    //         $("#confirmModal").modal("show");
-    //     });
-    // });
-    //
-    // function clearFilter() {
-    //     window.location = "[[@{/products}]]"
-    // }
+    $(document).ready(function() {
+        $(".link-delete").on("click", function(e) {
+            e.preventDefault();
+            link = $(this);
+            //alert($(this).attr("href"));
+            productId = link.attr("productId");
+            $("#yesButton").attr("href", link.attr("href"));
+            $("#confirmText").text("Are you sure you want to delete this product?");
+            $("#confirmModal").modal("show");
+        });
+    });
+
+    function clearFilter() {
+        window.location = "[[@{/products}]]"
+    }
 </script>
 </body>
 </html>

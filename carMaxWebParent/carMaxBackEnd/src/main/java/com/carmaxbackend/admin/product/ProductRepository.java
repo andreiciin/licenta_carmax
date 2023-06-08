@@ -13,4 +13,6 @@ public interface ProductRepository extends CrudRepository<Product, Integer>, Pag
 	@Query("UPDATE Product p SET p.enabled = ?2 WHERE p.id = ?1")
 	@Modifying
 	public void updateEnabledStatus(Integer id, boolean enabled);
+
+	public Long countById(Integer id);
 }
