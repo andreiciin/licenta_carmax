@@ -52,6 +52,21 @@ public class ProductRepositoryTests {
 	}
 
 	@Test
+	public void testSaveImages() {
+//		Integer productId = 1;
+//		Product product = repo.findById(productId).get();
+//
+//		product.setMainImage("mainEnkeiImage.jpg");
+//		product.addExtraImage("extraImage1.png");
+//		product.addExtraImage("extraImage2.png");
+//		product.addExtraImage("extraImage3.png");
+//
+//		Product savedProduct = repo.save(product);
+//
+//		assertThat(savedProduct.getImages().size()).isEqualTo(3);
+	}
+
+	@Test
 	public void testListAllProducts() {
 		Iterable<Product> iterableProducts = repo.findAll();
 
