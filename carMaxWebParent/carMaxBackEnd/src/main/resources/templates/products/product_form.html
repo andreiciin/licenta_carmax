@@ -102,33 +102,7 @@
     moduleURL = "[[@{/products}]]";
     brandModuleURL = "[[@{/brands}]]";
 
-    dropdownBrands = $("#brand");
-    dropdownCategories = $("#category");
-
-    $(document).ready(function() {
-
-        $("#shortDescription").richText();
-        $("#fullDescription").richText();
-
-        dropdownBrands.change(function() {
-            dropdownCategories.empty();
-            getCategories();
-        });
-
-        getCategories();
-    });
-
-
-    function getCategories() {
-        brandId = dropdownBrands.val();
-        url = brandModuleURL + "/" + brandId + "/categories";
-
-        $.get(url, function(responseJson) {
-            $.each(responseJson, function(index, category) {
-                $("<option>").val(category.id).text(category.name).appendTo(dropdownCategories);
-            });
-        });
-    }
+    defaultImageThumbnailSrc = "[[@{/images/image-thumbnail.png}]]";
 
     function checkUnique(form) {
         productId = $("#id").val();
@@ -157,5 +131,6 @@
     }
 </script>
 <script th:src="@{/js/common_form.js}"></script>
+<script th:src="@{/js/product_form.js}"></script>
 </body>
 </html>
