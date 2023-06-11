@@ -2,6 +2,7 @@ package com.carmax.common.entity;
 
 import jakarta.persistence.*;
 
+
 @Entity
 @Table(name = "product_images")
 public class ProductImage {
@@ -19,6 +20,13 @@ public class ProductImage {
 
 	public ProductImage() {
 	}
+
+	public ProductImage(Integer id, String name, Product product) {
+		this.id = id;
+		this.name = name;
+		this.product = product;
+	}
+
 
 	public ProductImage(String name, Product product) {
 		this.name = name;

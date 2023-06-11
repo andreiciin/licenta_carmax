@@ -13,10 +13,11 @@ function addNextDetailSection() {
 
     htmlDetailSection = `
 		<div class="d-flex flex-row align-items-center flex-wrap" id="divDetail${divDetailsCount}">
-			<label class="m-3">Name:</label>
-			<input type="text" class="form-control w-25" name="detailNames" maxlength="255" />
-			<label class="m-3">Value:</label>
-			<input type="text" class="form-control w-25" name="detailValues" maxlength="255" />
+			<input type="hidden" name="detailIDs" value="0" />
+            <label class="m-3">Name:</label>
+            <input type="text" class="form-control w-25" name="detailNames" maxlength="255" />
+            <label class="m-3">Value:</label>
+            <input type="text" class="form-control w-25" name="detailValues" maxlength="255" />
 		</div>	
 	`;
 
