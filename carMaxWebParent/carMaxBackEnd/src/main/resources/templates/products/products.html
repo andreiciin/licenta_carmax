@@ -35,31 +35,17 @@
         [[${message}]]
     </div>
 
-    <div>
-        <form th:action="@{/products/page/1}" class="d-flex align-items-center m-3">
-
-            <div class="col-auto">
-                <label for="keyword" class="col-form-label">Filter:&nbsp;</label>
-            </div>
-            <div class="col-auto">
-                <input type="search" id="keyword" name="keyword" th:value="${keyword}" class="form-control" required/>
-            </div>
-            <div class="col-auto">
-                <input type="submit" value="Search" class="btn btn-primary ms-1"/>
-                <input type="button" value="Clear" class="btn btn-secondary" onclick="clearFilter()"/>
-            </div>
-        </form>
-    </div>
+    <div th:replace="fragments :: search_form_and_message('/products/page/1')" />
 
     <div class="full-details">
         <table class="table table-bordered table-striped table-hover table-responsive-xl">
             <thead class="table-secondary">
                 <tr>
-                    <th>ID</th>
+                    <th th:replace="fragments :: column_link('/products', 'id', 'ID', 'none')" />
                     <th>Main Image</th>
-                    <th>Product Name</th>
-                    <th>Brand</th>
-                    <th>Category</th>
+                    <th th:replace="fragments :: column_link('/products', 'name', 'Product Name', 'none')" />
+                    <th th:replace="fragments :: column_link('/products', 'brand', 'Brand', 'none')" />
+                    <th th:replace="fragments :: column_link('/products', 'category', 'Category', 'none')" />
                     <th>Enabled</th>
                     <th></th>
                 </tr>
@@ -73,8 +59,8 @@
                 <td>
                     <a class="link-detail"
                        th:href="@{'/products/detail/' + ${product.id}}"
-                       title="View details of this product"
-                    >[[${product.name}]]</a>
+                       th:title="${product.name}"
+                    >[[${product.shortName}]]</a>
                 </td>
                 <td>[[${product.brand.name}]]</td>
                 <td>[[${product.category.name}]]</td>
@@ -125,6 +111,8 @@
             </div>
         </div>
     </div>
+
+    <div th:replace="fragments :: pagination('/products', 'products')"></div>
 
     <div th:replace="fragments :: footer"></div>
 
