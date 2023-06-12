@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org" lang="en">
+<body>
+<div th:fragment="content" th:remove="tag">
+
+    <div class="form-floating row mb-2">
+        <div class="d-flex align-items-center">
+            <label class="col-sm-2 col-form-label">Length (cm):</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control ms-1" th:value="${product.length}" readonly/>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-floating row mb-2">
+        <div class="d-flex align-items-center">
+            <label class="col-sm-2 col-form-label">Width (cm):</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control ms-1" th:value="${product.width}" readonly/>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-floating row mb-2">
+        <div class="d-flex align-items-center">
+            <label class="col-sm-2 col-form-label">Height (cm):</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control ms-1" th:value="${product.height}" readonly/>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-floating row mb-2">
+        <div class="d-flex align-items-center">
+            <label class="col-sm-2 col-form-label">Weight (kg):</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control ms-1" th:value="${product.weight}" readonly/>
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

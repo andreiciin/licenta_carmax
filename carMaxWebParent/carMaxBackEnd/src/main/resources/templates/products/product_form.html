@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head>
     <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
@@ -62,20 +63,44 @@
                     <div th:replace="products/product_overview :: content"></div>
                 </div>
                 <div class="tab-pane" id="description" role="tabpanel">
-                    <div th:replace="products/product_description :: content"></div>
+                    <th:block sec:authorize="hasAuthority('Salesperson')">
+                        <div th:replace="products/product_description_read_only :: content"></div>
+                    </th:block>
+
+                    <th:block sec:authorize="hasAnyAuthority('Admin', 'Editor')">
+                        <div th:replace="products/product_description :: content"></div>
+                    </th:block>
                 </div>
                 <div class="tab-pane" id="images" role="tabpanel">
-                    <div th:replace="products/product_images :: content"></div>
+                    <th:block sec:authorize="hasAuthority('Salesperson')">
+                        <div th:replace="products/product_images_read_only :: content"></div>
+                    </th:block>
+
+                    <th:block sec:authorize="hasAnyAuthority('Admin', 'Editor')">
+                        <div th:replace="products/product_images :: content"></div>
+                    </th:block>
                 </div>
                 <div class="tab-pane p-3" id="details" role="tabpanel">
-                    <div th:replace="products/product_details :: content"></div>
-                    <div>
-                        <input type="button" class="btn btn-secondary" value="Add More Detail"
-                               onclick="addNextDetailSection()" />
-                    </div>
+                    <th:block sec:authorize="hasAuthority('Salesperson')">
+                        <div th:replace="products/product_details_read_only :: content"></div>
+                    </th:block>
+
+                    <th:block sec:authorize="hasAnyAuthority('Admin', 'Editor')">
+                        <div th:replace="products/product_details :: content"></div>
+                        <div>
+                            <input type="button" class="btn btn-secondary" value="Add More Detail"
+                                   onclick="addNextDetailSection()" />
+                        </div>
+                    </th:block>
                 </div>
                 <div class="tab-pane p-3" id="shipping" role="tabpanel">
-                    <div th:replace="products/product_shipping :: content"></div>
+                    <th:block sec:authorize="hasAuthority('Salesperson')">
+                        <div th:replace="products/product_shipping_read_only :: content"></div>
+                    </th:block>
+
+                    <th:block sec:authorize="hasAnyAuthority('Admin', 'Editor')">
+                        <div th:replace="products/product_shipping :: content"></div>
+                    </th:block>
                 </div>
             </div>
         </div>
