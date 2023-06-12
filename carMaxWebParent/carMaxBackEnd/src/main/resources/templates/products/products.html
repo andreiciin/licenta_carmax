@@ -34,10 +34,6 @@
         </th:block>
     </div>
 
-    <div th:if="${message != null}" class="alert alert-success text-center">
-        [[${message}]]
-    </div>
-
     <div>
         <form th:action="@{/products/page/1}" class="d-flex align-items-center m-3" id="searchForm">
             <input type="hidden" name="sortField" th:value="${sortField}"/>

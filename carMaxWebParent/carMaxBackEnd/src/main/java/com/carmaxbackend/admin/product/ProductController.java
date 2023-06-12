@@ -121,7 +121,6 @@ public class ProductController {
 
 		return "redirect:/products";
 	}
-
 	@GetMapping("/products/{id}/enabled/{status}")
 	public String updateCategoryEnabledStatus(@PathVariable("id") Integer id,
 											  @PathVariable("status") boolean enabled, RedirectAttributes redirectAttributes) {
