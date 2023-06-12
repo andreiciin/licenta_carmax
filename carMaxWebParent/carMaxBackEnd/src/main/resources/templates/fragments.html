@@ -8,8 +8,8 @@
 
     <th th:fragment="column_link(moduleUrl, fieldName, columnLabel, removeTag)" th:remove="${removeTag}">
         <a class="text-dark"
-           th:href="@{${moduleUrl} +'/page/' + ${currentPage} + '?sortField=' + ${fieldName} + '&sortDir=' + ${sortField != fieldName ? sortDir : reverseSortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">
-            [[${columnLabel}]]
+           th:href="@{${moduleUrl} +'/page/' + ${currentPage} + '?sortField=' + ${fieldName} + '&sortDir=' + ${sortField != fieldName ? sortDir : reverseSortDir} + ${keyword != null ? '&keyword=' + keyword : ''}
+           + ${categoryId != null ? '&categoryId=' + categoryId : ''}}">[[${columnLabel}]]
         </a>
         <span th:if="${sortField == fieldName}"
               th:class="${sortDir == 'asc' ? 'fa-solid fa-sort-up' : 'fa-solid fa-sort-down'}"></span>
@@ -17,7 +17,8 @@
 
     <a th:fragment="page_link(moduleUrl, pageNum, label)"
        class="page-link"
-       th:href="@{${moduleUrl} +'/page/' + ${pageNum} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">[[${label}]]
+       th:href="@{${moduleUrl} +'/page/' + ${pageNum} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''} +
+       ${categoryId != null ? '&categoryId=' + categoryId : ''}}">[[${label}]]
     </a>
 
     <div th:fragment="status(enabled, entityName, entityUrl)" th:remove="tag">
