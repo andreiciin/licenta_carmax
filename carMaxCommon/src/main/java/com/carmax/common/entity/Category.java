@@ -8,7 +8,6 @@ import java.util.Set;
 @Entity
 @Table(name = "categories")
 public class Category {
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
@@ -23,6 +22,9 @@ public class Category {
 	private String image;
 
 	private boolean enabled;
+
+	@Column(name = "all_parent_ids", length = 256, nullable = true)
+	private String allParentIDs;
 
 	@OneToOne
 	@JoinColumn(name = "parent_id")
@@ -39,38 +41,38 @@ public class Category {
 	}
 
 	public static Category copyIdAndName(Category category) {
-		Category newCategory = new Category();
-		newCategory.setId(category.getId());
-		newCategory.setName(category.getName());
+		Category copyCategory = new Category();
+		copyCategory.setId(category.getId());
+		copyCategory.setName(category.getName());
 
-		return newCategory;
+		return copyCategory;
 	}
 
 	public static Category copyIdAndName(Integer id, String name) {
-		Category newCategory = new Category();
-		newCategory.setId(id);
-		newCategory.setName(name);
+		Category copyCategory = new Category();
+		copyCategory.setId(id);
+		copyCategory.setName(name);
 
-		return newCategory;
+		return copyCategory;
 	}
 
 	public static Category copyFull(Category category) {
-		Category newCategory = new Category();
-		newCategory.setId(category.getId());
-		newCategory.setName(category.getName());
-		newCategory.setImage(category.getImage());
-		newCategory.setAlias(category.getAlias());
-		newCategory.setEnabled(category.isEnabled());
-		newCategory.setHasChildren(category.getChildren().size() > 0);
+		Category copyCategory = new Category();
+		copyCategory.setId(category.getId());
+		copyCategory.setName(category.getName());
+		copyCategory.setImage(category.getImage());
+		copyCategory.setAlias(category.getAlias());
+		copyCategory.setEnabled(category.isEnabled());
+		copyCategory.setHasChildren(category.getChildren().size() > 0);
 
-		return newCategory;
+		return copyCategory;
 	}
 
 	public static Category copyFull(Category category, String name) {
-		Category newCategory = Category.copyFull(category);
-		newCategory.setName(name);
+		Category copyCategory = Category.copyFull(category);
+		copyCategory.setName(name);
 
-		return newCategory;
+		return copyCategory;
 	}
 
 	public Category(String name) {
@@ -82,6 +84,13 @@ public class Category {
 	public Category(String name, Category parent) {
 		this(name);
 		this.parent = parent;
+	}
+
+	public Category(Integer id, String name, String alias) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.alias = alias;
 	}
 
 	public Integer getId() {
@@ -156,4 +165,17 @@ public class Category {
 
 	@Transient
 	private boolean hasChildren;
+
+	@Override
+	public String toString() {
+		return this.name;
+	}
+
+	public String getAllParentIDs() {
+		return allParentIDs;
+	}
+
+	public void setAllParentIDs(String allParentIDs) {
+		this.allParentIDs = allParentIDs;
+	}
 }
