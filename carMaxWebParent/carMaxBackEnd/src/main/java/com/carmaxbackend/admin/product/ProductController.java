@@ -3,6 +3,7 @@ package com.carmaxbackend.admin.product;
 import com.carmax.common.entity.Brand;
 import com.carmax.common.entity.Category;
 import com.carmax.common.entity.Product;
+import com.carmax.common.exception.ProductNotFoundException;
 import com.carmaxbackend.admin.FileUploadUtil;
 import com.carmaxbackend.admin.brand.BrandService;
 import com.carmaxbackend.admin.category.CategoryService;

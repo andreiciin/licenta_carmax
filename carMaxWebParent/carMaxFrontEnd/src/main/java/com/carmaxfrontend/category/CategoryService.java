@@ -1,12 +1,14 @@
 package com.carmaxfrontend.category;
 
 import com.carmax.common.entity.Category;
+import com.carmax.common.exception.CategoryNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+
 
 @Service
 public class CategoryService {
@@ -28,8 +30,13 @@ public class CategoryService {
 		return listNoChildrenCategories;
 	}
 
-	public Category getCategory(String alias) {
-		return repo.findByAliasEnabled(alias);
+	public Category getCategory(String alias) throws CategoryNotFoundException {
+		Category category = repo.findByAliasEnabled(alias);
+		if (category == null) {
+			throw new CategoryNotFoundException("Could not find any categories with alias " + alias);
+		}
+
+		return category;
 	}
 
 	public List<Category> getCategoryParents(Category child) {

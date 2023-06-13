@@ -1,4 +1,4 @@
-package com.carmaxbackend.admin.product;
+package com.carmax.common.exception;
 
 public class ProductNotFoundException extends Exception {
 

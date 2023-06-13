@@ -1,4 +1,4 @@
-package com.carmaxbackend.admin.category;
+package com.carmax.common.exception;
 
 public class CategoryNotFoundException extends Exception {
 	public CategoryNotFoundException(String message) {
