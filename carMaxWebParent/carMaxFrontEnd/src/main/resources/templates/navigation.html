@@ -7,7 +7,7 @@
         <a class="navbar-brand" th:href="@{/}">
             <img th:src="@{/images/CMlogo-130.png}"/>
         </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#topNavbar">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#topNavbar, #searchNavbar">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="topNavbar">
@@ -33,6 +33,20 @@
             </ul>
         </div>
     </nav>
+</div>
+
+<div th:fragment="search_nav" class="row">
+    <div class="col-md">
+        <nav class="navbar navbar-expand-sm bg-light">
+            <div class="collapse navbar-collapse" id="searchNavbar">
+                <form class="d-flex" th:action="@{/search}" method="get">
+                    <input type="search" name="keyword" class="form-control me-2" th:value="${keyword}"
+                           placeholder="Keyword" required />
+                    <button type="submit" value="Search" class="btn btn-outline-success">Search</button>
+                </form>
+            </div>
+        </nav>
+    </div>
 </div>
 
 <div th:fragment="footer_menu">
