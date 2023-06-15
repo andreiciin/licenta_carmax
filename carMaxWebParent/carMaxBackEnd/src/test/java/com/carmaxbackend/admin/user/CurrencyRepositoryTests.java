@@ -26,6 +26,8 @@ public class CurrencyRepositoryTests {
 	public void testCreateCurrencies() {
 //		List<Currency> listCurrencies = Arrays.asList(
 //			new Currency("United States Dollar", "$", "USD"),
+//				new Currency("Romanian Leu", "lei", "RON"),
+//				new Currency("Polish Zloty", "zl", "PLN"),
 //			new Currency("British Pound", "£", "GPB"),
 //			new Currency("Japanese Yen", "¥", "JPY"),
 //			new Currency("Euro", "€", "EUR"),
@@ -43,6 +45,6 @@ public class CurrencyRepositoryTests {
 //
 //		Iterable<Currency> iterable = repo.findAll();
 //
-//		assertThat(iterable).size().isEqualTo(12);
+//		assertThat(iterable).size().isEqualTo(14);
 	}
 }
