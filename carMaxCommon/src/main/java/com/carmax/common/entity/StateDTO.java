@@ -1,4 +1,4 @@
-package com.carmaxbackend.admin.setting.state;
+package com.carmax.common.entity;
 
 public class StateDTO {
 	private Integer id;
