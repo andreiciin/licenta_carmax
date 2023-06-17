@@ -10,13 +10,18 @@ import java.util.List;
 
 @Service
 public class SettingService {
-	@Autowired
-	private SettingRepository repo;
+	@Autowired private SettingRepository repo;
 
 
 	public List<Setting> getGeneralSettings() {
 		return repo.findByTwoCategories(SettingCategory.GENERAL, SettingCategory.CURRENCY);
 	}
 
+	public EmailSettingBag getEmailSettings() {
+		List<Setting> settings = repo.findByCategory(SettingCategory.MAIL_SERVER);
+		settings.addAll(repo.findByCategory(SettingCategory.MAIL_TEMPLATES));
+
+		return new EmailSettingBag(settings);
+	}
 }
 
