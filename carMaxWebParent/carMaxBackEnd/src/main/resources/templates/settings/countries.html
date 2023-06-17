@@ -18,16 +18,17 @@
         </select>
     </div>
 
+    <form id="formCountry">
     <div class="form-floating row mb-2">
         <div class="d-flex align-items-center">
             <label class="col-form-label mt-2 me-2 ms-2" id="labelCountryName">Country Name:</label>
             <div class="col-md">
-                <input type="text" class="form-control mt-2" id="fieldCountryName" />
+                <input type="text" class="form-control mt-2" id="fieldCountryName" required minlength="3" maxlength="45" />
             </div>
 
             <label class="col-form-label mt-2 me-2 ms-4">Code:</label>
             <div class="col-md">
-                <input type="text" class="form-control mt-2" id="fieldCountryCode" />
+                <input type="text" class="form-control mt-2" id="fieldCountryCode" required minlength="2" maxlength="3" />
             </div>
             <div class="col-lg-4 mt-2 ms-5">
                 <input type="button" id="buttonAddCountry" value="New" class="btn btn-secondary me-2" />
@@ -36,6 +37,7 @@
             </div>
         </div>
     </div>
+    </form>
 </div>
 </body>
 </html>

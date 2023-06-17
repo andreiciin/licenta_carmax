@@ -33,11 +33,13 @@
         </div>
     </div>
 
+    <form id="formState">
     <div class="form-floating row">
         <div class="d-flex align-items-center">
             <label class="col-sm-2 col-form-label mt-2" id="labelStateName">State/Province Name:</label>
             <div class="col-sm-6">
-                <input type="text" class="form-control mt-2" id="fieldStateName" />
+                <input type="text" class="form-control mt-2" id="fieldStateName"
+                       required minlength="3" maxlength="45" />
             </div>
             <div class="col-lg-4 mt-2 ms-5">
                 <input type="button" id="buttonAddState" value="New" class="btn btn-secondary me-2" />
@@ -46,7 +48,7 @@
             </div>
         </div>
     </div>
-
+    </form>
 </div>
 </body>
 </html>
