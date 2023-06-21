@@ -26,17 +26,20 @@ public class HistoryRepositoryTests {
 
 	@Test
 	public void testCreateHistory() {
-//		Product product1 = entityManager.find(Product.class, 1);
-//		Product product2 = entityManager.find(Product.class, 6);
+//		Product product1 = entityManager.find(Product.class, 3);
+//		Product product2 = entityManager.find(Product.class, 33);
 //
 //		History history = new History();
 //
-//		history.setVehicle("Suzuki Swift");
-//		history.setService("Irmex Braila - Braila");
-//		history.setFullDescription("Schimb ulei");
+//		history.setVehicle("Skoda Fabia");
+//		history.setMileage(181329);
+//		history.setService("Mecanic Iulian - Constanta");
+//		history.setFullDescription("Schimbare distributie");
 //
 //		Date date = new GregorianCalendar(2023, Calendar.MAY, 5).getTime();
 //		history.setCreatedTime(date);
+//		Date updatedDate = new GregorianCalendar(2023, Calendar.JUNE, 20).getTime();
+//		history.setUpdatedTime(updatedDate);
 //
 //		history.setEnabled(true);
 //

@@ -77,8 +77,8 @@ public class BrandRepositoryTest {
 //
 //	@Test
 //	public void testUpdateName() {
-//		String newName = "Samsung Electronics";
-//		Brand samsung = repo.findById(3).get();
+//		String newName = "Superflex";
+//		Brand Superflex = repo.findById(3).get();
 //		samsung.setName(newName);
 //
 //		Brand savedBrand = repo.save(samsung);

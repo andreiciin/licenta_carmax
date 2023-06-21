@@ -57,10 +57,12 @@
                 <tr>
                     <th>ID</th>
                     <th>Vehicle</th>
+                    <th>Mileage</th>
                     <th>Service</th>
                     <th>Parts</th>
                     <th>Description</th>
                     <th>Date</th>
+                    <th>Last Date</th>
                     <th>Verified purchase</th>
                     <th></th>
                 </tr>
@@ -69,6 +71,7 @@
             <tr th:each="history : ${listHistory}">
                 <td>[[${history.id}]]</td>
                 <td>[[${history.vehicle}]]</td>
+                <td>[[${history.mileage}]]</td>
                 <td>[[${history.service}]]</td>
                 <td>
                     <th:block th:each="prod : ${history.products}">
@@ -77,6 +80,7 @@
                 </td>
                 <td>[[${history.fullDescription}]]</td>
                 <td>[[${history.createdTime}]]</td>
+                <td>[[${history.updatedTime}]]</td>
                 <td>
                     <a th:if="${history.enabled == true}" class="fa-solid fa-check-circle fa-2x icon-green"
                        th:href="@{'/history/' + ${history.id} + '/enabled/false'}"

@@ -17,6 +17,8 @@ public class History {
 	@Column(length = 64, nullable = false, name = "vehicle")
 	private String vehicle;
 
+	private float mileage;
+
 	@Column(length = 512, nullable = false, name = "service")
 	private String service;
 
@@ -25,6 +27,9 @@ public class History {
 
 	@Column(name = "created_time")
 	private Date createdTime;
+
+	@Column(name = "updated_time")
+	private Date updatedTime;
 
 	private boolean enabled;
 
@@ -90,5 +95,21 @@ public class History {
 
 	public void setProducts(Set<Product> products) {
 		this.products = products;
+	}
+
+	public float getMileage() {
+		return mileage;
+	}
+
+	public void setMileage(float mileage) {
+		this.mileage = mileage;
+	}
+
+	public Date getUpdatedTime() {
+		return updatedTime;
+	}
+
+	public void setUpdatedTime(Date updatedTime) {
+		this.updatedTime = updatedTime;
 	}
 }
