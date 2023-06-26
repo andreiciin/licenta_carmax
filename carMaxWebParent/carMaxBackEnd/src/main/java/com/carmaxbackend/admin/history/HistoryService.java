@@ -9,6 +9,7 @@ import java.util.List;
 @Service
 public class HistoryService {
 
+	public static final int HISTORY_PER_PAGE = 10;
 	@Autowired
 	private HistoryRepository repo;
 

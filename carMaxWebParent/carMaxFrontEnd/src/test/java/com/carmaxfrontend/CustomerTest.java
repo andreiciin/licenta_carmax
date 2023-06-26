@@ -25,20 +25,20 @@ public class CustomerTest {
 
 	@Test
 	public void testCreateCustomer1() {
-//		Integer countryId = 234; // USA
+//		Integer countryId = 190; // CRO
 //		Country country = entityManager.find(Country.class, countryId);
 //
 //		Customer customer = new Customer();
 //		customer.setCountry(country);
-//		customer.setFirstName("Marian");
-//		customer.setLastName("Manea");
+//		customer.setFirstName("Ion");
+//		customer.setLastName("Dunareanu");
 //		customer.setPassword("password123");
-//		customer.setEmail("marian.manea@gmail.com");
-//		customer.setPhoneNumber("0786732109");
-//		customer.setAddressLine1("Aleea Dorului 12");
-//		customer.setCity("Bucuresti");
-//		customer.setState("Bucuresti");
-//		customer.setPostalCode("410234");
+//		customer.setEmail("ion.dun@gmail.com");
+//		customer.setPhoneNumber("078680213");
+//		customer.setAddressLine1("Strada Maior 30");
+//		customer.setCity("Buzau");
+//		customer.setState("Romania");
+//		customer.setPostalCode("678321");
 //		customer.setCreatedTime(new Date());
 //
 //		Customer savedCustomer = repo.save(customer);

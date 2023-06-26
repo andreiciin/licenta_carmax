@@ -27,7 +27,7 @@ public class History {
 
 	@Column(name = "created_time")
 	private Date createdTime;
-
+	//// remove updated time
 	@Column(name = "updated_time")
 	private Date updatedTime;
 
@@ -40,6 +40,14 @@ public class History {
 			inverseJoinColumns = @JoinColumn(name = "product_id")
 	)
 	private Set<Product> products = new HashSet<>();
+
+	public History(Integer id, String vehicle) {
+		this.id = id;
+		this.vehicle = vehicle;
+	}
+
+	public History() {
+	}
 
 	public Integer getId() {
 		return id;

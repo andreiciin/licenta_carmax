@@ -8,6 +8,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
+import java.util.List;
+
 public interface ProductRepository extends CrudRepository<Product, Integer>, PagingAndSortingRepository<Product, Integer> {
 
 	public Product findByName(String name);
@@ -24,6 +26,9 @@ public interface ProductRepository extends CrudRepository<Product, Integer>, Pag
 			+ "OR p.brand.name LIKE %?1% "
 			+ "OR p.category.name LIKE %?1%")
 	public Page<Product> findAll(String keyword, Pageable pageable);
+
+	@Query("SELECT NEW Product(p.id, p.name) FROM Product p ORDER BY p.name ASC")
+	public List<Product> findAll();
 
 	@Query("SELECT p FROM Product p WHERE p.category.id = ?1 "
 			+ "OR p.category.allParentIDs LIKE %?2%")

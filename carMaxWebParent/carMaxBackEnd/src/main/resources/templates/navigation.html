@@ -79,14 +79,14 @@
                     </li>
                 </th:block>
 
-                <th:block sec:authorize="hasAnyAuthority('Admin', 'Editor')">
-                    <li class="nav-item">
-                       <a class="nav-link" th:href="@{/articles}">Articles</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/menus}">Menus</a>
-                    </li>
-                </th:block>
+<!--                <th:block sec:authorize="hasAnyAuthority('Admin', 'Editor')">-->
+<!--                    <li class="nav-item">-->
+<!--                       <a class="nav-link" th:href="@{/articles}">Articles</a>-->
+<!--                    </li>-->
+<!--                    <li class="nav-item">-->
+<!--                        <a class="nav-link" th:href="@{/menus}">Menus</a>-->
+<!--                    </li>-->
+<!--                </th:block>-->
 
                 <li class="nav-item dropdown" sec:authorize="hasAuthority('Admin')">
                     <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown"

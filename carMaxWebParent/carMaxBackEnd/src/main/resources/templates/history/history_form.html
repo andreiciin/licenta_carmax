@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+
+    <title>[[${pageTitle}]]</title>
+
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/5.2.3/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/fontawesome/all.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/style.css}"/>
+    <script type="text/javascript" th:src="@{/webjars/jquery/3.6.4/jquery.min.js}"></script>
+    <script
+            src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"
+            integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB"
+            crossorigin="anonymous"
+    ></script>
+    <script type="text/javascript" th:src="@{/webjars/bootstrap/5.2.3/js/bootstrap.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/common.js}"></script>
+</head>
+<body>
+<div class="container-fluid">
+    <div th:replace="navigation :: menu"></div>
+
+    <div>
+        <h2>Manage History | [[${pageTitle}]]</h2>
+    </div>
+
+    <form th:action="@{/history/save}" method="post"
+          enctype="multipart/form-data"
+          th:object="${history}">
+        <input type="hidden" th:field="*{id}" />
+
+        <div>
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" data-toggle="tab" href="#overview" role="tab">Overview</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#images" role="tab">Images</a>
+                </li>
+            </ul>
+
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div class="tab-pane active p-3" id="overview" role="tabpanel">
+                    <div th:replace="history/history_overview :: content"></div>
+                </div>
+                <div class="tab-pane" id="images" role="tabpanel">Images</div>
+            </div>
+        </div>
+        <div class="text-center">
+            <input type="submit" value="Save" class="btn btn-primary mt-3" />
+            <input type="button" value="Cancel" class="btn btn-secondary mt-3" id="buttonCancel" />
+        </div>
+    </form>
+
+    <div class="modal fade text-center" id="modalDialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="modalTitle">Warning</h4>
+                    <button type="button" class="close" data-bs-dismiss="modal">&times;</button>
+                </div>
+
+                <div class="modal-body">
+                    <span id="modalBody"></span>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div th:replace="fragments :: footer"></div>
+</div>
+<script type="text/javascript">
+    MAX_FILE_SIZE = 502400;
+    moduleURL = "[[@{/history}]]";
+
+    $(document).ready(function() {
+        dropdownProducts = $("#products");
+        divChosenProducts = $("#chosenProducts");
+
+        dropdownProducts.change(function() {
+            divChosenProducts.empty();
+            showChosenProducts();
+        });
+
+        showChosenProducts();
+    });
+
+    function showChosenProducts() {
+        dropdownProducts.children("option:selected").each(function() {
+            selectedProduct = $(this);
+            catId = selectedProduct.val();
+            catName = selectedProduct.text();
+
+            divChosenProducts.append("<span class='badge bg-secondary m-1'>" + catName + "</span>");
+        });
+    }
+
+</script>
+<script th:src="@{/js/common_form.js}"></script>
+</body>
+</html>

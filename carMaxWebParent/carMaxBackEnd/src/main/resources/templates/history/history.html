@@ -62,7 +62,6 @@
                     <th>Parts</th>
                     <th>Description</th>
                     <th>Date</th>
-                    <th>Last Date</th>
                     <th>Verified purchase</th>
                     <th></th>
                 </tr>
@@ -80,7 +79,6 @@
                 </td>
                 <td>[[${history.fullDescription}]]</td>
                 <td>[[${history.createdTime}]]</td>
-                <td>[[${history.updatedTime}]]</td>
                 <td>
                     <a th:if="${history.enabled == true}" class="fa-solid fa-check-circle fa-2x icon-green"
                        th:href="@{'/history/' + ${history.id} + '/enabled/false'}"
@@ -148,9 +146,9 @@
     //     });
     // });
     //
-    // function clearFilter() {
-    //     window.location = "[[@{/products}]]"
-    // }
+    function clearFilter() {
+        window.location = "[[@{/products}]]"
+    }
 </script>
 </body>
 </html>

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org" lang="en"
+       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<body>
+<div th:fragment="content" th:remove="tag">
+
+  <div class="form-floating row mb-2">
+    <div class="d-flex align-items-center">
+      <label class="col-sm-2 col-form-label">Vehicle name:</label>
+      <div class="col-sm-10">
+        <th:block th:if="${!#authorization.expression('hasAuthority(''Admin'')') && !#authorization.expression('hasAuthority(''Editor'')')}">
+          <th:block th:if="${#authorization.expression('hasAuthority(''Salesperson'')')}">
+            <input type="text" class="form-control" th:field="*{vehicle}"
+                   readonly="readonly" />
+          </th:block>
+        </th:block>
+
+        <th:block th:if="${#authorization.expression('hasAuthority(''Admin'')') || #authorization.expression('hasAuthority(''Editor'')')}">
+          <input type="text" class="form-control" th:field="*{vehicle}"
+                 required minlength="3" maxlength="256"  />
+        </th:block>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-floating row mb-2">
+    <div class="d-flex align-items-center">
+      <label class="col-sm-2 col-form-label">Mileage:</label>
+      <div class="col-sm-10">
+        <input type="number" step="1000" class="form-control ms-1" th:field="*{mileage}"/>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-floating row mb-2">
+    <div class="d-flex align-items-center">
+      <label class="col-sm-2 col-form-label">Service:</label>
+      <div class="col-sm-10">
+        <th:block th:if="${!#authorization.expression('hasAuthority(''Admin'')') && !#authorization.expression('hasAuthority(''Editor'')')}">
+          <th:block th:if="${#authorization.expression('hasAuthority(''Salesperson'')')}">
+            <input type="text" class="form-control" th:field="*{service}"
+                   readonly="readonly" />
+          </th:block>
+        </th:block>
+
+        <th:block th:if="${#authorization.expression('hasAuthority(''Admin'')') || #authorization.expression('hasAuthority(''Editor'')')}">
+          <input type="text" class="form-control" th:field="*{service}"
+                 required minlength="3" maxlength="256"  />
+        </th:block>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-floating row mb-2">
+    <div class="d-flex align-items-center">
+      <label class="col-sm-2 col-form-label">Select parts:</label>
+      <div class="col-sm-10">
+        <select class="form-control" th:field="*{products}" multiple
+                style="resize: vertical; height: 200px">
+          <th:block th:each="prod : ${listProducts}">
+            <option th:value="${prod.id}">[[${prod.name}]]</option>
+          </th:block>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-floating row mb-2">
+    <div class="d-flex align-items-center">
+      <label class="col-sm-2 col-form-label">Chosen parts:</label>
+      <div class="col-sm-10">
+        <div id="chosenProducts">
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="form-floating row mb-2">
+    <div class="d-flex align-items-center">
+      <label class="col-sm-2 col-form-label">Description:</label>
+      <div class="col-sm-10">
+        <th:block th:if="${!#authorization.expression('hasAuthority(''Admin'')') && !#authorization.expression('hasAuthority(''Editor'')')}">
+          <th:block th:if="${#authorization.expression('hasAuthority(''Salesperson'')')}">
+            <textarea class="form-control" th:field="*{fullDescription}" rows="10" readonly="readonly"></textarea>
+          </th:block>
+        </th:block>
+
+        <th:block th:if="${#authorization.expression('hasAuthority(''Admin'')') || #authorization.expression('hasAuthority(''Editor'')')}">
+          <textarea class="form-control" th:field="*{fullDescription}" rows="10" required></textarea>
+        </th:block>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-floating row mb-2">
+    <div class="d-flex align-items-start">
+      <label class="col-sm-2 col-form-label">Enabled</label>
+      <div class="col-sm-10">
+        <th:block th:if="${!#authorization.expression('hasAuthority(''Admin'')') && !#authorization.expression('hasAuthority(''Editor'')')}">
+          <th:block th:if="${#authorization.expression('hasAuthority(''Salesperson'')')}">
+              <input type="checkbox" th:field="*{enabled}" disabled="disabled" />
+          </th:block>
+        </th:block>
+
+        <th:block th:if="${#authorization.expression('hasAuthority(''Admin'')') || #authorization.expression('hasAuthority(''Editor'')')}">
+          <input type="checkbox" th:field="*{enabled}" />
+        </th:block>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-floating row mb-2">
+    <div class="d-flex align-items-center">
+      <label class="col-sm-2 col-form-label">Date:</label>
+      <div class="col-sm-10">
+        <th:block th:if="${!#authorization.expression('hasAuthority(''Admin'')') && !#authorization.expression('hasAuthority(''Editor'')')}">
+          <th:block th:if="${#authorization.expression('hasAuthority(''Salesperson'')')}">
+            <input type="date" class="form-control" th:field="*{createdTime}"
+                   readonly="readonly" />
+          </th:block>
+        </th:block>
+
+        <th:block th:if="${#authorization.expression('hasAuthority(''Admin'')') || #authorization.expression('hasAuthority(''Editor'')')}">
+          <input type="date" class="form-control" th:field="*{createdTime}"
+                 required minlength="3" maxlength="256"  />
+        </th:block>
+      </div>
+    </div>
+  </div>
+
+</div>
+<script type="text/javascript">
+  MAX_FILE_SIZE = 502400;
+  moduleURL = "[[@{/history}]]";
+
+  $(document).ready(function() {
+    dropdownProducts = $("#products");
+    divChosenProducts = $("#chosenProducts");
+
+    dropdownProducts.change(function() {
+      divChosenProducts.empty();
+      showChosenProducts();
+    });
+
+    showChosenProducts();
+  });
+
+  function showChosenProducts() {
+    dropdownProducts.children("option:selected").each(function() {
+      selectedProduct = $(this);
+      catId = selectedProduct.val();
+      catName = selectedProduct.text();
+
+      divChosenProducts.append("<span class='badge bg-secondary m-1'>" + catName + "</span>");
+    });
+  }
+
+</script>
+<script th:src="@{/js/common_form.js}"></script>
+</body>
+</html>
