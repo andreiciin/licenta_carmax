@@ -80,14 +80,7 @@
                 <td>[[${history.fullDescription}]]</td>
                 <td>[[${history.createdTime}]]</td>
                 <td>
-                    <a th:if="${history.enabled == true}" class="fa-solid fa-check-circle fa-2x icon-green"
-                       th:href="@{'/history/' + ${history.id} + '/enabled/false'}"
-                       title="Disable this history"
-                    ></a>
-                    <a th:if="${history.enabled == false}" class="fa-solid fa-circle fa-2x icon-dark"
-                       th:href="@{'/history/' + ${history.id} + '/enabled/true'}"
-                       title="Enable this history"
-                    ></a>
+                    <div th:replace="fragments :: status(${history.enabled}, 'history', '/history/' + ${history.id})" />
                 </td>
                 <td>
                     <a class="fa-solid fa-file-alt fa-2x icon-green" th:href="@{'/history/detail/' + ${history.id}}"

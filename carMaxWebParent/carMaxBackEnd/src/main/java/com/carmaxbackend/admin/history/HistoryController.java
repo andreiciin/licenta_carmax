@@ -8,6 +8,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -50,4 +51,16 @@ public class HistoryController {
 		ra.addFlashAttribute("message", "The history has been saved successfully.");
 		return "redirect:/history";
 	}
+
+	@GetMapping("/history/{id}/enabled/{status}")
+	public String updateHistoryEnabledStatus(@PathVariable("id") Integer id,
+											  @PathVariable("status") boolean enabled, RedirectAttributes redirectAttributes) {
+		historyService.updateHistoryEnabledStatus(id, enabled);
+		String status = enabled ? "enabled" : "disabled";
+		String message = "The History ID " + id + " has been " + status;
+		redirectAttributes.addFlashAttribute("message", message);
+
+		return "redirect:/history";
+	}
+
 }
