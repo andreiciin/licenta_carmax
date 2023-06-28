@@ -16,4 +16,6 @@ public interface HistoryRepository extends CrudRepository<History, Integer>, Pag
 	@Query("UPDATE History h SET h.enabled = ?2 WHERE h.id = ?1")
 	@Modifying
 	public void updateEnabledStatus(Integer id, boolean enabled);
+
+	public Long countById(Integer id);
 }

@@ -2,6 +2,7 @@ package com.carmaxbackend.admin.history;
 
 import com.carmax.common.entity.History;
 import com.carmax.common.entity.Product;
+import com.carmax.common.exception.HistoryNotFoundException;
 import com.carmaxbackend.admin.product.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -59,6 +60,22 @@ public class HistoryController {
 		String status = enabled ? "enabled" : "disabled";
 		String message = "The History ID " + id + " has been " + status;
 		redirectAttributes.addFlashAttribute("message", message);
+
+		return "redirect:/history";
+	}
+
+	@GetMapping("/history/delete/{id}")
+	public String deleteHistory(@PathVariable(name = "id") Integer id,
+								Model model,
+								RedirectAttributes redirectAttributes) {
+		try {
+			historyService.delete(id);
+
+			redirectAttributes.addFlashAttribute("message",
+					"The history ID " + id + " has been deleted successfully");
+		} catch (HistoryNotFoundException ex) {
+			redirectAttributes.addFlashAttribute("message", ex.getMessage());
+		}
 
 		return "redirect:/history";
 	}
