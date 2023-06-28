@@ -1,6 +1,7 @@
 package com.carmax.common.entity;
 
 import jakarta.persistence.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 import java.util.HashSet;
@@ -26,10 +27,8 @@ public class History {
 	private String fullDescription;
 
 	@Column(name = "created_time")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date createdTime;
-	//// remove updated time
-	@Column(name = "updated_time")
-	private Date updatedTime;
 
 	private boolean enabled;
 
@@ -111,13 +110,5 @@ public class History {
 
 	public void setMileage(float mileage) {
 		this.mileage = mileage;
-	}
-
-	public Date getUpdatedTime() {
-		return updatedTime;
-	}
-
-	public void setUpdatedTime(Date updatedTime) {
-		this.updatedTime = updatedTime;
 	}
 }
