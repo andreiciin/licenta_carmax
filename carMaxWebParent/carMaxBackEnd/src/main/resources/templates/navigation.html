@@ -73,9 +73,15 @@
                     </li>
                 </th:block>
 
-                <th:block sec:authorize="hasAnyAuthority('Admin', 'Salesperson', 'Editor')">
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/history}">History</a>
+                <th:block sec:authorize="hasAnyAuthority('Admin', 'Salesperson', 'Editor', 'Shipper')">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown"
+                           th:href="@{/history}">History</a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" th:href="@{/history/new}"
+                               sec:authorize="hasAnyAuthority('Admin', 'Editor')">Create New</a>
+                            <a class="dropdown-item" th:href="@{/history}">View All</a>
+                        </div>
                     </li>
                 </th:block>
 

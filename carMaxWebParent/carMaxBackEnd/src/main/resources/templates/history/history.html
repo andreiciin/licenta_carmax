@@ -69,7 +69,12 @@
             <tbody>
             <tr th:each="history : ${listHistory}">
                 <td>[[${history.id}]]</td>
-                <td>[[${history.vehicle}]]</td>
+                <td>
+                    <a class="link-detail"
+                       th:href="@{'/history/detail/' + ${history.id}}"
+                       title="View details of this history"
+                    >[[${history.vehicle}]]</a>
+                </td>
                 <td>[[${history.mileage}]]</td>
                 <td>[[${history.service}]]</td>
                 <td>
@@ -83,7 +88,7 @@
                     <div th:replace="fragments :: status(${history.enabled}, 'history', '/history/' + ${history.id})" />
                 </td>
                 <td>
-                    <a class="fa-solid fa-file-alt fa-2x icon-green" th:href="@{'/history/detail/' + ${history.id}}"
+                    <a class="fa-solid fa-file-alt fa-2x icon-green link-detail" th:href="@{'/history/detail/' + ${history.id}}"
                        title="View details of this history"></a>
                     &nbsp;
                     <a class="fa-solid fa-edit fa-2x icon-green" th:href="@{'/history/edit/' + ${history.id}}"
@@ -120,6 +125,13 @@
         </div>
     </div>
 
+    <div class="modal fade" id="detailModal">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+            </div>
+        </div>
+    </div>
+
     <div th:replace="fragments :: footer"></div>
 
 </div>
@@ -137,6 +149,13 @@
             $("#confirmText").text("Are you sure you want to delete this history?");
             $("#confirmModal").modal("show");
         });
+    });
+
+    $(".link-detail").on("click", function(e) {
+        e.preventDefault();
+        linkDetailURL = $(this).attr("href");
+        // alert(linkDetailURL);
+        $("#detailModal").modal("show").find(".modal-content").load(linkDetailURL);
     });
 
     function clearFilter() {

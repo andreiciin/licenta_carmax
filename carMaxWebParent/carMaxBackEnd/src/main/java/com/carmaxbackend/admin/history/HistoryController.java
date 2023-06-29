@@ -222,4 +222,20 @@ public class HistoryController {
 			return "redirect:/history";
 		}
 	}
+
+	@GetMapping("/history/detail/{id}")
+	public String viewHistoryDetails(@PathVariable("id") Integer id, Model model,
+									 RedirectAttributes ra) {
+		try {
+			History history = historyService.get(id);
+			model.addAttribute("history", history);
+
+			return "history/history_detail_modal";
+
+		} catch (HistoryNotFoundException e) {
+			ra.addFlashAttribute("message", e.getMessage());
+
+			return "redirect:/history";
+		}
+	}
 }
