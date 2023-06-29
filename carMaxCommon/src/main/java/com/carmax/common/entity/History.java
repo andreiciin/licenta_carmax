@@ -32,6 +32,12 @@ public class History {
 
 	private boolean enabled;
 
+	@Column(name = "main_image", nullable = false)
+	private String mainImage;
+
+	@OneToMany(mappedBy = "history", cascade = CascadeType.ALL)
+	private Set<HistoryImage> images = new HashSet<>();
+
 	@ManyToMany
 	@JoinTable(
 			name = "car_products",
@@ -110,5 +116,36 @@ public class History {
 
 	public void setMileage(float mileage) {
 		this.mileage = mileage;
+	}
+	@Override
+	public String toString() {
+		return "History [id=" + id + ", vehicle=" + vehicle + "]";
+	}
+
+	public String getMainImage() {
+		return mainImage;
+	}
+
+	public void setMainImage(String mainImage) {
+		this.mainImage = mainImage;
+	}
+
+	public Set<HistoryImage> getImages() {
+		return images;
+	}
+
+	public void setImages(Set<HistoryImage> images) {
+		this.images = images;
+	}
+
+	public void addExtraImage(String imageName) {
+		this.images.add(new HistoryImage(imageName, this));
+	}
+
+	@Transient
+	public String getMainImagePath() {
+		if (id == null || mainImage == null) return "/images/image-thumbnail.png";
+
+		return "/history-images/" + this.id + "/" + this.mainImage;
 	}
 }
