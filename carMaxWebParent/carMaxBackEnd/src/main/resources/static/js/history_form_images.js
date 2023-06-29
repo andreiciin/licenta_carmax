@@ -1,35 +1,26 @@
 var extraImagesCount = 0;
 
-dropdownProducts = $("#products");
-divChosenProducts = $("#chosenProducts");
 
 $(document).ready(function() {
-
-    dropdownProducts.change(function() {
-        divChosenProducts.empty();
-        showChosenProducts();
-    });
-
-    showChosenProducts();
 
     $("input[name='extraImage']").each(function(index) {
         extraImagesCount++;
 
         $(this).change(function() {
+            if (!checkFileSize(this)) {
+                return;
+            }
             showExtraImageThumbnail(this, index);
+        });
+    });
+
+    $("a[name='linkRemoveExtraImage']").each(function(index) {
+        $(this).click(function() {
+            removeExtraImage(index);
         });
     });
 });
 
-function showChosenProducts() {
-    dropdownProducts.children("option:selected").each(function() {
-        selectedProduct = $(this);
-        catId = selectedProduct.val();
-        catName = selectedProduct.text();
-
-        divChosenProducts.append("<span class='badge bg-secondary m-1'>" + catName + "</span>");
-    });
-}
 
 function showExtraImageThumbnail(fileInput, index) {
     var file = fileInput.files[0];
@@ -44,6 +35,7 @@ function showExtraImageThumbnail(fileInput, index) {
         addNextExtraImageSection(index + 1);
     }
 }
+
 
 function addNextExtraImageSection(index) {
     htmlExtraImage = `
@@ -67,7 +59,7 @@ function addNextExtraImageSection(index) {
 			title="Remove this image"></a>
 	`;
 
-    $("#divProductImages").append(htmlExtraImage);
+    $("#divHistoryImages").append(htmlExtraImage);
 
     $("#extraImageHeader" + (index - 1)).append(htmlLinkRemove);
 

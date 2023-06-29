@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 @Transactional
@@ -36,5 +37,13 @@ public class HistoryService {
 		}
 
 		repo.deleteById(id);
+	}
+
+	public History get(Integer id) throws HistoryNotFoundException {
+		try {
+			return repo.findById(id).get();
+		} catch (NoSuchElementException ex) {
+			throw new HistoryNotFoundException("Could not find any history with ID " + id);
+		}
 	}
 }

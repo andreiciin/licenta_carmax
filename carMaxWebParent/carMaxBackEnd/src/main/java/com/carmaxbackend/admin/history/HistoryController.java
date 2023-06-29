@@ -143,4 +143,26 @@ public class HistoryController {
 		return "redirect:/history";
 	}
 
+	@GetMapping("/history/edit/{id}")
+	public String editHistory(@PathVariable("id") Integer id, Model model,
+				RedirectAttributes ra) {
+
+		try {
+			History history = historyService.get(id);
+			List<Product> listProducts = productService.listAll();
+			Integer numberOfExistingExtraImages = history.getImages().size();
+
+			model.addAttribute("listProducts", listProducts);
+			model.addAttribute("history", history);
+			model.addAttribute("pageTitle", "Edit History (ID: " + id + ")");
+			model.addAttribute("numberOfExistingExtraImages", numberOfExistingExtraImages);
+
+			return "history/history_form";
+
+		} catch (HistoryNotFoundException e) {
+			ra.addFlashAttribute("message", e.getMessage());
+
+			return "redirect:/history";
+		}
+	}
 }
