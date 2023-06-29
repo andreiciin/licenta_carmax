@@ -5,6 +5,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 @Entity
@@ -35,7 +36,7 @@ public class History {
 	@Column(name = "main_image", nullable = false)
 	private String mainImage;
 
-	@OneToMany(mappedBy = "history", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "history", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<HistoryImage> images = new HashSet<>();
 
 	@ManyToMany
@@ -147,5 +148,18 @@ public class History {
 		if (id == null || mainImage == null) return "/images/image-thumbnail.png";
 
 		return "/history-images/" + this.id + "/" + this.mainImage;
+	}
+
+	public boolean containsImageName(String imageName) {
+		Iterator<HistoryImage> iterator = images.iterator();
+
+		while (iterator.hasNext()) {
+			HistoryImage image = iterator.next();
+			if (image.getName().equals(imageName)) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 }

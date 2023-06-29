@@ -1,10 +1,14 @@
 package com.carmaxbackend.admin.history;
 
 import com.carmax.common.entity.History;
+import com.carmax.common.entity.HistoryImage;
 import com.carmax.common.entity.Product;
+import com.carmax.common.entity.ProductImage;
 import com.carmax.common.exception.HistoryNotFoundException;
 import com.carmaxbackend.admin.FileUploadUtil;
 import com.carmaxbackend.admin.product.ProductService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
@@ -18,12 +22,17 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 public class HistoryController {
-
+	private static final Logger LOGGER = LoggerFactory.getLogger(HistoryController.class);
 	@Autowired
 	private HistoryService historyService;
 	@Autowired
@@ -54,16 +63,21 @@ public class HistoryController {
 	public String saveHistory(History history, @RequestParam("createdTime") @DateTimeFormat(pattern = "yyyy-MM-dd") java.util.Date createdTime,
 							  @RequestParam(value = "fileImage", required = false) MultipartFile mainImageMultipart,
 							  @RequestParam(value = "extraImage", required = false) MultipartFile[] extraImageMultiparts,
+							  @RequestParam(name = "imageIDs", required = false) String[] imageIDs,
+							  @RequestParam(name = "imageNames", required = false) String[] imageNames,
 							  RedirectAttributes ra) throws IOException {
 
 		history.setCreatedTime(new java.sql.Date(createdTime.getTime()));
 
 		setMainImageName(mainImageMultipart, history);
-		setExtraImageNames(extraImageMultiparts, history);
+		setExistingExtraImageNames(imageIDs, imageNames, history);
+		setNewExtraImageNames(extraImageMultiparts, history);
 
 		History savedHistory = historyService.save(history);
 
 		saveUploadedImages(mainImageMultipart, extraImageMultiparts, savedHistory);
+
+		deleteExtraImagesWeredRemovedOnForm(history);
 
 		ra.addFlashAttribute("message", "The history has been saved successfully.");
 		return "redirect:/history";
@@ -92,12 +106,55 @@ public class HistoryController {
 
 	}
 
-	private void setExtraImageNames(MultipartFile[] extraImageMultiparts, History history) {
+	static void deleteExtraImagesWeredRemovedOnForm(History history) {
+		String extraImageDir = "../history-images/" + history.getId() + "/extras";
+		Path dirPath = Paths.get(extraImageDir);
+
+		try {
+			Files.list(dirPath).forEach(file -> {
+				String filename = file.toFile().getName();
+
+				if (!history.containsImageName(filename)) {
+					try {
+						Files.delete(file);
+						LOGGER.info("Deleted extra image: " + filename);
+
+					} catch (IOException e) {
+						LOGGER.error("Could not delete extra image: " + filename);
+					}
+				}
+
+			});
+		} catch (IOException ex) {
+			LOGGER.error("Could not list directory: " + dirPath);
+		}
+	}
+
+	static void setExistingExtraImageNames(String[] imageIDs, String[] imageNames,
+										   History history) {
+		if (imageIDs == null || imageIDs.length == 0) return;
+
+		Set<HistoryImage> images = new HashSet<>();
+
+		for (int count = 0; count < imageIDs.length; count++) {
+			Integer id = Integer.parseInt(imageIDs[count]);
+			String name = imageNames[count];
+
+			images.add(new HistoryImage(id, name, history));
+		}
+
+		history.setImages(images);
+
+	}
+
+	private void setNewExtraImageNames(MultipartFile[] extraImageMultiparts, History history) {
 		if (extraImageMultiparts.length > 0) {
 			for (MultipartFile multipartFile : extraImageMultiparts) {
 				if (!multipartFile.isEmpty()) {
 					String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-					history.addExtraImage(fileName);
+					if (!history.containsImageName(fileName)) {
+						history.addExtraImage(fileName);
+					}
 				}
 			}
 		}
