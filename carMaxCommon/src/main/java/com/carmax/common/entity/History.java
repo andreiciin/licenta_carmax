@@ -162,4 +162,12 @@ public class History {
 
 		return false;
 	}
+
+	@Transient
+	public String getShortName() {
+		if (vehicle.length() > 70) {
+			return vehicle.substring(0, 70).concat("...");
+		}
+		return vehicle;
+	}
 }

@@ -31,37 +31,19 @@
            title="Add new history"></a>
     </div>
 
-    <div th:if="${message != null}" class="alert alert-success text-center">
-        [[${message}]]
-    </div>
-
-    <div>
-        <form th:action="@{/history/page/1}" class="d-flex align-items-center m-3">
-
-            <div class="col-auto">
-                <label for="keyword" class="col-form-label">Filter:&nbsp;</label>
-            </div>
-            <div class="col-auto">
-                <input type="search" id="keyword" name="keyword" th:value="${keyword}" class="form-control" required/>
-            </div>
-            <div class="col-auto">
-                <input type="submit" value="Search" class="btn btn-primary ms-1"/>
-                <input type="button" value="Clear" class="btn btn-secondary" onclick="clearFilter()"/>
-            </div>
-        </form>
-    </div>
+    <div th:replace="fragments :: search_form_and_message('/history/page/1')" />
 
     <div class="full-details">
         <table class="table table-bordered table-striped table-hover table-responsive-xl">
             <thead class="table-secondary">
                 <tr>
-                    <th>ID</th>
-                    <th>Vehicle</th>
-                    <th>Mileage</th>
-                    <th>Service</th>
+                    <th th:replace="fragments :: column_link('/history', 'id', 'ID', 'none')" />
+                    <th th:replace="fragments :: column_link('/history', 'vehicle', 'Vehicle', 'none')" />
+                    <th th:replace="fragments :: column_link('/history', 'mileage', 'Mileage', 'none')" />
+                    <th th:replace="fragments :: column_link('/history', 'service', 'Service', 'none')" />
                     <th>Parts</th>
                     <th>Description</th>
-                    <th>Date</th>
+                    <th th:replace="fragments :: column_link('/history', 'createdTime', 'Date', 'none')" />
                     <th>Verified purchase</th>
                     <th></th>
                 </tr>
@@ -72,8 +54,8 @@
                 <td>
                     <a class="link-detail"
                        th:href="@{'/history/detail/' + ${history.id}}"
-                       title="View details of this history"
-                    >[[${history.vehicle}]]</a>
+                       th:title="${history.vehicle}"
+                    >[[${history.shortName}]]</a>
                 </td>
                 <td>[[${history.mileage}]]</td>
                 <td>[[${history.service}]]</td>
@@ -131,6 +113,8 @@
             </div>
         </div>
     </div>
+
+    <div th:replace="fragments :: pagination('/history', 'history')"></div>
 
     <div th:replace="fragments :: footer"></div>
 

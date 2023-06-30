@@ -18,4 +18,9 @@ public interface HistoryRepository extends CrudRepository<History, Integer>, Pag
 	public void updateEnabledStatus(Integer id, boolean enabled);
 
 	public Long countById(Integer id);
+
+	@Query("SELECT h FROM History h WHERE h.vehicle LIKE %?1% "
+			+ "OR h.fullDescription LIKE %?1% "
+			+ "OR h.service LIKE %?1% ")
+	public Page<History> findAll(String keyword, Pageable pageable);
 }
