@@ -1,5 +1,6 @@
 package com.carmaxfrontend.security;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -15,6 +16,8 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig {
+	@Autowired
+	private DatabaseLoginSuccessHandler databaseLoginHandler;
 
 	@Bean
 	public UserDetailsService userDetailsService() {
@@ -44,6 +47,7 @@ public class WebSecurityConfig {
 				.formLogin()
 				.loginPage("/login")
 				.usernameParameter("email")
+				.successHandler(databaseLoginHandler)
 				.permitAll()
 				.and().logout().permitAll()
 				.and().rememberMe().key("AbcDefgHijKlmnOpqrs_1234567890").tokenValiditySeconds(7 * 24 * 60 * 60);

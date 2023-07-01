@@ -1,5 +1,6 @@
 package com.carmaxfrontend.customer;
 
+import com.carmax.common.entity.AuthenticationType;
 import com.carmax.common.entity.Country;
 import com.carmax.common.entity.Customer;
 import com.carmaxfrontend.setting.CountryRepository;
@@ -33,12 +34,17 @@ public class CustomerService {
 		encodePassword(customer);
 		customer.setEnabled(false);
 		customer.setCreatedTime(new Date());
+		customer.setAuthenticationType(AuthenticationType.DATABASE);
 
 		String randomCode = RandomString.make(64);
 		customer.setVerificationCode(randomCode);
 
 		customerRepo.save(customer);
 
+	}
+
+	public Customer getCustomerByEmail(String email) {
+		return customerRepo.findByEmail(email);
 	}
 
 	private void encodePassword(Customer customer) {
@@ -54,6 +60,12 @@ public class CustomerService {
 		} else {
 			customerRepo.enable(customer.getId());
 			return true;
+		}
+	}
+
+	public void updateAuthenticationType(Customer customer, AuthenticationType type) {
+		if (!customer.getAuthenticationType().equals(type)) {
+			customerRepo.updateAuthenticationType(customer.getId(), type);
 		}
 	}
 }
