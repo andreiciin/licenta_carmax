@@ -31,19 +31,19 @@
            title="Add new history"></a>
     </div>
 
-    <div th:replace="fragments :: search_form_and_message('/history/page/1')" />
+    <div th:replace="fragments :: search_form_and_message" />
 
     <div class="full-details">
         <table class="table table-bordered table-striped table-hover table-responsive-xl">
             <thead class="table-secondary">
                 <tr>
-                    <th th:replace="fragments :: column_link('/history', 'id', 'ID', 'none')" />
-                    <th th:replace="fragments :: column_link('/history', 'vehicle', 'Vehicle', 'none')" />
-                    <th th:replace="fragments :: column_link('/history', 'mileage', 'Mileage', 'none')" />
-                    <th th:replace="fragments :: column_link('/history', 'service', 'Service', 'none')" />
+                    <th th:replace="fragments :: column_link('id', 'ID', 'none')" />
+                    <th th:replace="fragments :: column_link('vehicle', 'Vehicle', 'none')" />
+                    <th th:replace="fragments :: column_link('mileage', 'Mileage', 'none')" />
+                    <th th:replace="fragments :: column_link('service', 'Service', 'none')" />
                     <th>Parts</th>
                     <th>Description</th>
-                    <th th:replace="fragments :: column_link('/history', 'createdTime', 'Date', 'none')" />
+                    <th th:replace="fragments :: column_link('createdTime', 'Date', 'none')" />
                     <th>Verified purchase</th>
                     <th></th>
                 </tr>
@@ -114,7 +114,7 @@
         </div>
     </div>
 
-    <div th:replace="fragments :: pagination('/history', 'history')"></div>
+    <div th:replace="fragments :: pagination('history')"></div>
 
     <div th:replace="fragments :: footer"></div>
 

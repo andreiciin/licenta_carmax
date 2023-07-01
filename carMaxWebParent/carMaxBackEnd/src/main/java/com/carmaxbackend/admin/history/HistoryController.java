@@ -69,6 +69,7 @@ public class HistoryController {
 		model.addAttribute("reverseSortDir", reverseSortDir);
 		model.addAttribute("keyword", keyword);
 		model.addAttribute("listHistory", listHistory);
+		model.addAttribute("moduleUrl", "/history");
 
 		return "history/history";
 	}
