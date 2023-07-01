@@ -1,6 +1,5 @@
 package com.carmaxbackend.admin.paging;
 
-import com.carmax.common.entity.Brand;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.CrudRepository;

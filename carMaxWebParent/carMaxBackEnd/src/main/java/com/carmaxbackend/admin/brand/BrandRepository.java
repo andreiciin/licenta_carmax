@@ -1,6 +1,7 @@
 package com.carmaxbackend.admin.brand;
 
 import com.carmax.common.entity.Brand;
+import com.carmaxbackend.admin.paging.SearchRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
@@ -9,7 +10,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 
 import java.util.List;
 
-public interface BrandRepository extends CrudRepository<Brand, Integer>, PagingAndSortingRepository<Brand, Integer> {
+public interface BrandRepository extends SearchRepository<Brand, Integer> {
 	public Long countById(Integer id);
 
 	public Brand findByName(String name);
