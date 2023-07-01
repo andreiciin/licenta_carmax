@@ -3,6 +3,7 @@ package com.carmaxbackend.admin.user;
 import com.carmax.common.entity.Role;
 import com.carmax.common.entity.User;
 
+import com.carmaxbackend.admin.paging.PagingAndSortingHelper;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,17 +41,20 @@ public class UserService {
 		return (List<User>) userRepo.findAll();
 	}
 
-	public Page<User> listByPage(int pageNum, String sortField, String sortDir, String keyword) {
-		Sort sort = Sort.by(sortField);
-		sort = sortDir.equals("asc") ? sort.ascending() : sort.descending();
+	public void listByPage(int pageNum, PagingAndSortingHelper helper) {
+		Sort sort = Sort.by(helper.getSortField());
+		sort = helper.getSortDir().equals("asc") ? sort.ascending() : sort.descending();
 
 		Pageable pageable = PageRequest.of(pageNum - 1, USERS_PER_PAGE, sort);
+		Page<User> page = null;
 
-		if (keyword != null) {
-			return userRepo.findAll(keyword, pageable);
+		if (helper.getKeyword() != null) {
+			page = userRepo.findAll(helper.getKeyword(), pageable);
+		} else {
+			page = userRepo.findAll(pageable);
 		}
 
-		return userRepo.findAll(pageable);
+		helper.updateModelAttributes(pageNum, page);
 	}
 
 	public List<Role> listRoles() {
