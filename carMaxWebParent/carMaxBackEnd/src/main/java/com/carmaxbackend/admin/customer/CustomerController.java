@@ -3,6 +3,8 @@ package com.carmaxbackend.admin.customer;
 import com.carmax.common.entity.Country;
 import com.carmax.common.entity.Customer;
 import com.carmax.common.exception.CustomerNotFoundException;
+import com.carmaxbackend.admin.paging.PagingAndSortingHelper;
+import com.carmaxbackend.admin.paging.PagingAndSortingParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.repository.query.Param;
@@ -18,43 +20,21 @@ import java.util.List;
 @Controller
 public class CustomerController {
 
+	private String defaultRedirectURL = "redirect:/customers/page/1?sortField=firstName&sortDir=asc";
 	@Autowired
 	private CustomerService service;
 
 	@GetMapping("/customers")
 	public String listFirstPage(Model model) {
-		return listByPage(model, 1, "firstName", "asc", null);
+		return defaultRedirectURL;
 	}
 
 	@GetMapping("/customers/page/{pageNum}")
-	public String listByPage(Model model,
-							 @PathVariable(name = "pageNum") int pageNum,
-							 @Param("sortField") String sortField,
-							 @Param("sortDir") String sortDir,
-							 @Param("keyword") String keyword
-	) {
+	public String listByPage(
+			@PagingAndSortingParam(listName = "listCustomers", moduleURL = "/customers") PagingAndSortingHelper helper,
+			@PathVariable(name = "pageNum") int pageNum) {
 
-		Page<Customer> page = service.listByPage(pageNum, sortField, sortDir, keyword);
-		List<Customer> listCustomers = page.getContent();
-
-		long startCount = (pageNum - 1) * CustomerService.CUSTOMERS_PER_PAGE + 1;
-		model.addAttribute("startCount", startCount);
-
-		long endCount = startCount + CustomerService.CUSTOMERS_PER_PAGE - 1;
-		if (endCount > page.getTotalElements()) {
-			endCount = page.getTotalElements();
-		}
-
-		model.addAttribute("totalPages", page.getTotalPages());
-		model.addAttribute("totalItems", page.getTotalElements());
-		model.addAttribute("currentPage", pageNum);
-		model.addAttribute("listCustomers", listCustomers);
-		model.addAttribute("sortField", sortField);
-		model.addAttribute("sortDir", sortDir);
-		model.addAttribute("keyword", keyword);
-		model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
-		model.addAttribute("endCount", endCount);
-		model.addAttribute("moduleUrl", "/customers");
+		service.listByPage(pageNum, helper);
 
 		return "customers/customers";
 	}
@@ -67,7 +47,7 @@ public class CustomerController {
 		String message = "The Customer ID " + id + " has been " + status;
 		redirectAttributes.addFlashAttribute("message", message);
 
-		return "redirect:/customers";
+		return defaultRedirectURL;
 	}
 
 	@GetMapping("/customers/detail/{id}")
@@ -79,7 +59,7 @@ public class CustomerController {
 			return "customers/customer_detail_modal";
 		} catch (CustomerNotFoundException ex) {
 			ra.addFlashAttribute("message", ex.getMessage());
-			return "redirect:/customers";
+			return defaultRedirectURL;
 		}
 	}
 
@@ -97,7 +77,7 @@ public class CustomerController {
 
 		} catch (CustomerNotFoundException ex) {
 			ra.addFlashAttribute("message", ex.getMessage());
-			return "redirect:/customers";
+			return defaultRedirectURL;
 		}
 	}
 
@@ -105,7 +85,7 @@ public class CustomerController {
 	public String saveCustomer(Customer customer, Model model, RedirectAttributes ra) {
 		service.save(customer);
 		ra.addFlashAttribute("message", "The customer ID " + customer.getId() + " has been updated successfully.");
-		return "redirect:/customers";
+		return defaultRedirectURL;
 	}
 
 	@GetMapping("/customers/delete/{id}")
@@ -118,7 +98,7 @@ public class CustomerController {
 			ra.addFlashAttribute("message", ex.getMessage());
 		}
 
-		return "redirect:/customers";
+		return defaultRedirectURL;
 	}
 
 }

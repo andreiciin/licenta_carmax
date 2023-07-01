@@ -1,6 +1,7 @@
 package com.carmaxbackend.admin.customer;
 
 import com.carmax.common.entity.Customer;
+import com.carmaxbackend.admin.paging.SearchRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Modifying;
@@ -8,7 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
-public interface CustomerRepository extends CrudRepository<Customer, Integer>, PagingAndSortingRepository<Customer, Integer> {
+public interface CustomerRepository extends SearchRepository<Customer, Integer> {
 
 	@Query("SELECT c FROM Customer c WHERE CONCAT(c.email, ' ', c.firstName, ' ', c.lastName, ' ', "
 			+ "c.addressLine1, ' ', c.addressLine2, ' ', c.city, ' ', c.state, "
