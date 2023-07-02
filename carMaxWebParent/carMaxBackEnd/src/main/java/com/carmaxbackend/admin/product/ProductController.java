@@ -26,6 +26,7 @@ import java.util.List;
 
 @Controller
 public class ProductController {
+	private String defaultRedirectURL = "redirect:/products/page/1?sortField=name&sortDir=asc&categoryId=0";
 
 	@Autowired private ProductService productService;
 	@Autowired private BrandService brandService;
@@ -138,8 +139,7 @@ public class ProductController {
 
 	@GetMapping("/products/delete/{id}")
 	public String deleteProduct(@PathVariable(name = "id") Integer id,
-								Model model,
-								RedirectAttributes redirectAttributes) {
+								Model model, RedirectAttributes redirectAttributes) {
 		try {
 			productService.delete(id);
 			String productExtraImagesDir = "../product-images/" + id + "/extras";
@@ -159,24 +159,31 @@ public class ProductController {
 
 	@GetMapping("/products/edit/{id}")
 	public String editProduct(@PathVariable("id") Integer id, Model model,
-							  RedirectAttributes ra) {
+							  RedirectAttributes ra, @AuthenticationPrincipal CarMaxUserDetails loggedUser) {
 		try {
 			Product product = productService.get(id);
 			List<Brand> listBrands = brandService.listAll();
 			Integer numberOfExistingExtraImages = product.getImages().size();
 
+			boolean isReadOnlyForSalesperson = false;
+			if (!loggedUser.hasRole("Admin") && !loggedUser.hasRole("Editor")) {
+				if (loggedUser.hasRole("Salesperson")) {
+					isReadOnlyForSalesperson = true;
+				}
+			}
+
+			model.addAttribute("isReadOnlyForSalesperson", isReadOnlyForSalesperson);
 			model.addAttribute("product", product);
 			model.addAttribute("listBrands", listBrands);
 			model.addAttribute("pageTitle", "Edit Product (ID: " + id + ")");
 			model.addAttribute("numberOfExistingExtraImages", numberOfExistingExtraImages);
-
 
 			return "products/product_form";
 
 		} catch (ProductNotFoundException e) {
 			ra.addFlashAttribute("message", e.getMessage());
 
-			return "redirect:/products";
+			return defaultRedirectURL;
 		}
 	}
 
