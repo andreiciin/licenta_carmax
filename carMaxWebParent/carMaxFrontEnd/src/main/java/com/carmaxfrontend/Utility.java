@@ -3,6 +3,8 @@ package com.carmaxfrontend;
 import com.carmaxfrontend.setting.EmailSettingBag;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.security.authentication.RememberMeAuthenticationToken;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
 import java.util.Properties;
 
@@ -28,5 +30,19 @@ public class Utility {
 		mailSender.setJavaMailProperties(mailProperties);
 
 		return mailSender;
+	}
+
+	public static String getEmailOfAuthenticatedCustomer(HttpServletRequest request) {
+		Object principal = request.getUserPrincipal();
+		if (principal == null) return null;
+
+		String customerEmail = null;
+
+		if (principal instanceof UsernamePasswordAuthenticationToken
+				|| principal instanceof RememberMeAuthenticationToken) {
+			customerEmail = request.getUserPrincipal().getName();
+		}
+
+		return customerEmail;
 	}
 }
