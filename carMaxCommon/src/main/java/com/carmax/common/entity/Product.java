@@ -68,6 +68,10 @@ public class Product {
 		this.name = name;
 	}
 
+	public Product(Integer id) {
+		this.id = id;
+	}
+
 	public Product() {
 	}
 
