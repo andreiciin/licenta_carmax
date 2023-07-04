@@ -81,6 +81,51 @@ public class CustomerController {
 		System.out.println("Verify URL: " + verifyURL);
 	}
 
+
+	@GetMapping("/notify")
+	public String showNotifyForm(Model model, HttpServletRequest request) throws MessagingException, UnsupportedEncodingException {
+
+		sendOilChangeEmail(request);
+		return "redirect:/";
+	}
+
+	private void sendOilChangeEmail(HttpServletRequest request)
+			throws UnsupportedEncodingException, MessagingException {
+		Customer customer = getAuthenticatedCustomer(request);
+
+		EmailSettingBag emailSettings = settingService.getEmailSettings();
+		JavaMailSenderImpl mailSender = Utility.prepareMailSender(emailSettings);
+
+		String toAddress = customer.getEmail();
+		String subject = emailSettings.getCustomerOilSubject();
+		String content = emailSettings.getCustomerOilContent();
+
+		System.out.println("to Address: " + toAddress);
+		System.out.println("to Subj: " + subject);
+
+		MimeMessage message = mailSender.createMimeMessage();
+		MimeMessageHelper helper = new MimeMessageHelper(message);
+
+		helper.setFrom(emailSettings.getFromAddress(), emailSettings.getSenderName());
+		helper.setTo(toAddress);
+		helper.setSubject(subject);
+
+		content = content.replace("[[name]]", "client");
+
+		String verifyURL = "http://localhost/CarMax/c/servicing";
+
+		content = content.replace("[[URL]]", verifyURL);
+
+		helper.setText(content, true);
+
+		mailSender.send(message);
+	}
+
+	private Customer getAuthenticatedCustomer(HttpServletRequest request) {
+		String email = Utility.getEmailOfAuthenticatedCustomer(request);
+		return customerService.getCustomerByEmail(email);
+	}
+
 	@GetMapping("/verify")
 	public String verifyAccount(@Param("code") String code, Model model) {
 		boolean verified = customerService.verify(code);

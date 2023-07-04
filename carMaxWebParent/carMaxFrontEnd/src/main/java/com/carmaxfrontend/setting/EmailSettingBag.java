@@ -50,4 +50,12 @@ public class EmailSettingBag extends SettingBag {
 	public String getCustomerVerifyContent() {
 		return super.getValue("CUSTOMER_VERIFY_CONTENT");
 	}
+
+	public String getCustomerOilSubject() {
+		return super.getValue("CUSTOMER_OIL_SUBJECT");
+	}
+
+	public String getCustomerOilContent() {
+		return super.getValue("CUSTOMER_OIL_CONTENT");
+	}
 }
